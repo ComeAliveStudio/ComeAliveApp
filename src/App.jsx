@@ -32,6 +32,7 @@ const css = `
   @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&family=Outfit:wght@300;400;500&display=swap');
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
+    --azure-text: #2d6078;
     --ink: #4f889f; --parchment: #f6f3f0; --warm-white: #faf8f3;
     --gold: #005575; --gold-light: #4f889f; --gold-dim: #005575;
     --slate: #dbe8eb; --mist: #4f889f; --border: rgba(215,229,232,0.85);
@@ -71,7 +72,7 @@ const css = `
   .loading-wordmark { font-family:'Cormorant Garamond', serif; font-size:1.2rem; letter-spacing:0.28em; color:rgba(246,243,240,0.7); text-transform:uppercase; }
   .loading-bar { width:120px; height:1px; background:var(--parchment); animation:shimmerPulse 1.8s ease-in-out infinite; transform-origin:center; }
   section { padding: 6rem 3rem; }
-  .section-label { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 3rem; display: flex; align-items: center; gap: 1rem; }
+  .section-label { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--parchment); margin-bottom: 3rem; display: flex; align-items: center; gap: 1rem; }
   .section-label::after { content: ''; flex: 1; max-width: 60px; height: 1px; background: var(--border); }
   h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 4vw, 3rem); font-weight: 300; color: var(--parchment); line-height: 1.15; margin-bottom: 1.2rem; }
   h2 em { font-style: italic; color: rgba(246,243,240,0.75); }
@@ -92,8 +93,8 @@ const css = `
   .tier-card.featured::before { content: 'Early Access'; position: absolute; top: -1px; left: 50%; transform: translateX(-50%); background: linear-gradient(90deg, var(--gold-dim) 0%, var(--gold) 40%, var(--gold-light) 60%, var(--gold) 100%); background-size: 200% 100%; animation: badgeSheen 3s ease-in-out infinite; color: var(--parchment); font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase; padding: 0.3rem 1rem; font-weight: 500; white-space: nowrap; }
   .tier-name { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; color: var(--gold); margin-bottom: 0.5rem; }
   .tier-price { font-family: 'Cormorant Garamond', serif; font-size: 2.8rem; color: var(--gold); font-weight: 300; line-height: 1; margin: 1rem 0 0.3rem; }
-  .tier-price span { font-size: 1rem; color: #4f889f; }
-  .tier-desc { font-size: 0.82rem; color: #4f889f; margin-bottom: 1.8rem; }
+  .tier-price span { font-size: 1rem; color: var(--azure-text); }
+  .tier-desc { font-size: 0.82rem; color: var(--azure-text); margin-bottom: 1.8rem; }
   .tier-features { list-style: none; margin-bottom: 2rem; }
   .tier-features li { font-size: 0.83rem; color: var(--card-text); padding: 0.5rem 0; border-bottom: 1px solid rgba(0,85,117,0.12); display: flex; align-items: center; gap: 0.6rem; }
   .tier-features li::before { content: '→'; color: var(--gold); font-size: 0.7rem; }
@@ -114,7 +115,7 @@ const css = `
   .video-lock { position: absolute; top: 0.8rem; right: 0.8rem; background: rgba(0,63,90,0.75); padding: 0.3rem 0.6rem; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(246,243,240,0.8); border: 1px solid rgba(215,229,232,0.3); font-family: 'DM Mono', monospace; }
   .video-free { background: rgba(0,85,117,0.2); color: var(--parchment); border-color: rgba(0,85,117,0.5); }
   .video-info { padding: 1.2rem; }
-  .video-duration { font-family: 'DM Mono', monospace; font-size: 0.62rem; color: #4f889f; letter-spacing: 0.1em; margin-bottom: 0.4rem; }
+  .video-duration { font-family: 'DM Mono', monospace; font-size: 0.62rem; color: var(--azure-text); letter-spacing: 0.1em; margin-bottom: 0.4rem; }
   .video-title { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--gold); line-height: 1.3; margin-bottom: 0.4rem; }
   .video-desc { font-size: 0.78rem; color: var(--card-text); }
   .booking-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; max-width: 900px; margin: 2rem auto 0; }
@@ -122,7 +123,7 @@ const css = `
   .session-type:hover, .session-type.active { border-color: var(--gold); }
   .session-type.active { background: rgba(0,85,117,0.08); }
   .session-name { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--gold); margin-bottom: 0.3rem; }
-  .session-meta { font-family: 'DM Mono', monospace; font-size: 0.65rem; color: #4f889f; letter-spacing: 0.1em; }
+  .session-meta { font-family: 'DM Mono', monospace; font-size: 0.65rem; color: var(--azure-text); letter-spacing: 0.1em; }
   .booking-form { display: flex; flex-direction: column; gap: 1rem; }
   .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
   .form-label { font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--parchment); font-family: 'DM Mono', monospace; }
@@ -145,9 +146,9 @@ const css = `
   .dash-content { padding: 2.5rem 3rem; }
   .dash-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 3rem; }
   .dash-card { background: #dbe8eb; border: 1px solid rgba(215,229,232,0.6); padding: 1.8rem; }
-  .dash-card-label { font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase; color: #4f889f; margin-bottom: 0.8rem; }
+  .dash-card-label { font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--azure-text); margin-bottom: 0.8rem; }
   .dash-card-value { font-family: 'Cormorant Garamond', serif; font-size: 2.4rem; color: var(--gold); font-weight: 300; line-height: 1; }
-  .dash-card-sub { font-size: 0.75rem; color: #4f889f; margin-top: 0.4rem; }
+  .dash-card-sub { font-size: 0.75rem; color: var(--azure-text); margin-top: 0.4rem; }
   .progress-bar { height: 3px; background: rgba(0,85,117,0.18); margin-top: 1rem; border-radius: 2px; }
   .progress-fill { height: 100%; background: linear-gradient(90deg, var(--gold-dim), var(--gold)); border-radius: 2px; transition: width 0.6s ease; box-shadow: 0 0 6px rgba(0,85,117,0.25); }
   .plan-badge { display:inline-flex; align-items:center; padding:0.3rem 0.8rem; border:1px solid rgba(215,229,232,0.4); font-family:'DM Mono', monospace; font-size:0.62rem; letter-spacing:0.12em; text-transform:uppercase; color:rgba(246,243,240,0.6); }
@@ -502,7 +503,7 @@ function NavBar({ setPage, user, onSignIn, onSignOut }) {
     <nav>
       <span className="nav-logo" onClick={() => setPage('home')}>Come Alive Studio</span>
      <ul className="nav-links">
-  {['Library','Booking','Contact'].map(p => (
+  {['Library','Tools','Booking','Contact'].map(p => (
     <li key={p}>
       <a onClick={() => setPage(p.toLowerCase())}>{p}</a>
     </li>
@@ -1014,6 +1015,73 @@ function Library({ user, isPremium, setPage, progressMap, saveProgress }) {
   )
 }
 
+// ── TOOLS ─────────────────────────────────────────────────────────────────────
+// Static pages in /public, each one is a companion tool of "Your Master Relationship Manual"
+const TOOLS = [
+  {
+    title: "Relationship Clarity Checklist",
+    desc: "Check what you observe and what you feel. Let the numbers tell you what your heart already knows.",
+    href: "/clarity-tool/",
+  },
+  {
+    title: "Relationship Phases Framework",
+    desc: "Allow reality to emerge before attachment takes over. Find out which phase you are in.",
+    href: "/relationship-phases/",
+  },
+]
+
+function ToolsList() {
+  return (
+    <div style={{display:'grid', gap:'1rem', maxWidth:'820px'}}>
+      {TOOLS.map(t => (
+        <div
+          key={t.href}
+          className="light-surface"
+          style={{
+            border:'1px solid rgba(215,229,232,0.5)',
+            background:'#dbe8eb',
+            padding:'1.4rem',
+            display:'flex',
+            justifyContent:'space-between',
+            alignItems:'center',
+            gap:'1rem',
+            flexWrap:'wrap'
+          }}
+        >
+          <div style={{flex:'1 1 280px'}}>
+            <div style={{fontFamily:'Cormorant Garamond', fontSize:'1.4rem', color:'var(--gold)', marginBottom:'0.35rem'}}>
+              {t.title}
+            </div>
+            <div style={{color:'var(--card-text)', fontSize:'0.88rem'}}>{t.desc}</div>
+          </div>
+          <a
+            href={t.href}
+            className="btn-primary"
+            style={{textDecoration:'none', display:'inline-flex', alignItems:'center'}}
+          >
+            Open tool
+          </a>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+function ToolsPage() {
+  return (
+    <div style={{background:'#4f889f', paddingTop:'6rem', minHeight:'100vh'}}>
+      <div className="max-w" style={{padding:'4rem 3rem'}}>
+        <div className="section-label">Free Tools</div>
+        <h2>Interactive tools <em>from the book</em></h2>
+        <p style={{color:'rgba(246,243,240,0.85)', marginBottom:'2.5rem', fontSize:'0.9rem', maxWidth:520}}>
+          Short guided tools from Your Master Relationship Manual. Free to use, no account needed.
+        </p>
+        <ToolsList />
+      </div>
+    </div>
+  )
+}
+
 // ── BOOKING ───────────────────────────────────────────────────────────────────
 function Booking({ isPremium }) {
   const [selected, setSelected]   = useState(0)
@@ -1183,7 +1251,7 @@ function Contact() {
                 target={d.href.startsWith('mailto') ? undefined : '_blank'}
                 rel="noreferrer"
                 style={{textDecoration:'none', display:'block'}}
-                onMouseEnter={e => e.currentTarget.querySelector('.contact-detail-text strong').style.color = 'var(--gold)'}
+                onMouseEnter={e => e.currentTarget.querySelector('.contact-detail-text strong').style.color = '#ffffff'}
                 onMouseLeave={e => e.currentTarget.querySelector('.contact-detail-text strong').style.color = 'var(--parchment)'}
               >
                 <div className="contact-detail">
@@ -1416,6 +1484,7 @@ function Dashboard({
   const navItems = [
     { id:'overview', label:'Overview', icon:'◈' },
     { id:'courses', label:'My Courses', icon:'▤' },
+    { id:'tools', label:'Tools', icon:'✦' },
     { id:'downloads', label:'Downloads', icon:'⇩' },
     { id:'billing', label:'Billing', icon:'◧' },
     { id:'sessions', label:'Sessions', icon:'◷' },
@@ -1521,7 +1590,7 @@ function Dashboard({
         alignItems:'center'
       }}>
         <div style={{fontFamily:'Cormorant Garamond', fontSize:'1.6rem', fontWeight:300}}>
-          Welcome back, <span style={{color:'var(--gold)'}}>{user?.email?.split('@')[0]}</span>
+          Welcome back, <span style={{color:'#ffffff', fontStyle:'italic'}}>{user?.email?.split('@')[0]}</span>
         </div>
         <div className={`plan-badge ${planStatus==='active'||planStatus==='trialing'?'active':''}`}>
           {plan} · {planStatus || 'free'}
@@ -1674,6 +1743,13 @@ function Dashboard({
                   })}
                 </div>
               )}
+            </>
+          )}
+
+          {activeSection==='tools' && (
+            <>
+              <div className="section-label">Tools</div>
+              <ToolsList />
             </>
           )}
 
@@ -1952,7 +2028,7 @@ useEffect(() => {
           <footer>
             <div className="footer-logo">Come Alive Studio</div>
             <div className="footer-links">
-              {['Library','Booking','Contact'].map(l => (
+              {['Library','Tools','Booking','Contact'].map(l => (
                 <a key={l} onClick={() => setPage(l.toLowerCase())}>{l}</a>
               ))}
 
@@ -1975,6 +2051,7 @@ useEffect(() => {
           saveProgress={saveProgress}
         />
       )}
+      {page==='tools'     && <ToolsPage />}
       {page==='booking'   && <Booking isPremium={isPremium} />}
       {page==='contact'   && <Contact />}
       {page==='dashboard' && (
