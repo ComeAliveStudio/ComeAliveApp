@@ -125,11 +125,11 @@ const css = `
   .session-meta { font-family: 'DM Mono', monospace; font-size: 0.65rem; color: #4f889f; letter-spacing: 0.1em; }
   .booking-form { display: flex; flex-direction: column; gap: 1rem; }
   .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
-  .form-label { font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(246,243,240,0.7); font-family: 'DM Mono', monospace; }
-  .form-input, .form-select, .form-textarea { background: rgba(255,255,255,0.12); border: 1px solid rgba(215,229,232,0.4); color: var(--parchment); padding: 0.75rem 1rem; font-family: 'Outfit', sans-serif; font-size: 0.88rem; font-weight: 300; transition: border-color 0.2s; width: 100%; }
-  .form-input::placeholder, .form-textarea::placeholder { color: rgba(246,243,240,0.4); }
-  .form-input:focus, .form-select:focus, .form-textarea:focus { outline: none; border-color: var(--parchment); }
-  .form-select option { background: #3a7490; color: var(--parchment); }
+  .form-label { font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--parchment); font-family: 'DM Mono', monospace; }
+  .form-input, .form-select, .form-textarea { background: var(--warm-white); border: 1px solid var(--mist); color: var(--gold); padding: 0.75rem 1rem; font-family: 'Outfit', sans-serif; font-size: 0.88rem; font-weight: 300; transition: border-color 0.2s; width: 100%; }
+  .form-input::placeholder, .form-textarea::placeholder { color: rgba(0,85,117,0.55); }
+  .form-input:focus, .form-select:focus, .form-textarea:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 2px rgba(0,85,117,0.25); }
+  .form-select option { background: var(--warm-white); color: var(--gold); }
   .form-textarea { resize: vertical; min-height: 100px; }
   .contact-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 5rem; max-width: 950px; margin: 2rem auto 0; align-items: start; }
   .contact-detail { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; }
@@ -161,6 +161,9 @@ const css = `
   .success-msg { background: rgba(219,232,235,0.2); border: 1px solid var(--parchment); padding: 2rem; text-align: center; font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; color: var(--parchment); }
   .modal-overlay { position: fixed; inset: 0; background: rgba(0,63,90,0.85); z-index: 200; display: flex; align-items: center; justify-content: center; animation: fadeIn 0.2s ease; }
   .modal-box { background: #dbe8eb; border: 1px solid var(--gold); padding: 3rem; max-width: 420px; width: 90%; animation: slideUp 0.25s ease; }
+  .modal-box .form-label, .light-surface .form-label { color: var(--gold); }
+  .modal-box .btn-ghost, .light-surface .btn-ghost { color: var(--gold); border-color: var(--gold); }
+  .modal-box .btn-ghost:hover, .light-surface .btn-ghost:hover { background: rgba(0,85,117,0.08); border-color: var(--gold); }
   .max-w { max-width: 1100px; margin: 0 auto; }
   .text-center { text-align: center; }
   /* ── VIDEO HERO ── */
@@ -469,14 +472,14 @@ function AuthModal({ onClose, defaultMode = "signin" }) {
         {sent ? (
           <div style={{textAlign:'center'}}>
             <div style={{fontFamily:'Cormorant Garamond', fontSize:'1.8rem', color:'var(--gold)', marginBottom:'1rem'}}>Check your email.</div>
-            <p style={{color:'rgba(246,243,240,0.7)', fontSize:'0.88rem'}}>We sent a magic link to <strong style={{color:'var(--parchment)'}}>{email}</strong>. Click it to sign in — no password needed.</p>
+            <p style={{color:'var(--gold)', fontSize:'0.88rem'}}>We sent a magic link to <strong style={{color:'var(--gold)'}}>{email}</strong>. Click it to sign in - no password needed.</p>
           </div>
         ) : (
           <>
-            <div style={{fontFamily:'Cormorant Garamond', fontSize:'1.6rem', color:'var(--parchment)', marginBottom:'0.4rem'}}>
+            <div style={{fontFamily:'Cormorant Garamond', fontSize:'1.6rem', color:'var(--gold)', marginBottom:'0.4rem'}}>
               {mode === "signin" ? "Sign in" : "Create account"}
             </div>
-            <p style={{color:'rgba(246,243,240,0.7)', fontSize:'0.82rem', marginBottom:'1.5rem'}}>We'll send a magic link to your email — no password needed.</p>
+            <p style={{color:'var(--gold)', fontSize:'0.82rem', marginBottom:'1.5rem'}}>We'll send a magic link to your email - no password needed.</p>
             {err && <p style={{color:'#e24b4a', fontSize:'0.82rem', marginBottom:'1rem'}}>{err}</p>}
             <div className="form-group" style={{marginBottom:'1rem'}}>
               <label className="form-label">Email</label>
@@ -485,7 +488,7 @@ function AuthModal({ onClose, defaultMode = "signin" }) {
             <button className="btn-primary" style={{width:'100%'}} onClick={handle}>
               {mode === "signin" ? "Send magic link" : "Create account"}
             </button>
-            <button onClick={onClose} style={{width:'100%', marginTop:'0.8rem', background:'none', border:'none', color:'rgba(246,243,240,0.7)', cursor:'pointer', fontSize:'0.78rem'}}>Cancel</button>
+            <button onClick={onClose} style={{width:'100%', marginTop:'0.8rem', background:'none', border:'none', color:'var(--gold)', cursor:'pointer', fontSize:'0.78rem'}}>Cancel</button>
           </>
         )}
       </div>
@@ -759,21 +762,22 @@ function ConciergeSection() {
                     gap: '0.6rem',
                     padding: '0.65rem 1rem',
                     border: '1px solid var(--border)',
-                    color: 'var(--mist)',
+                    background: 'var(--slate)',
+                    color: 'var(--gold)',
                     fontSize: '0.8rem',
                     letterSpacing: '0.06em',
                     textDecoration: 'none',
                     transition: 'all 0.2s',
                   }}
                   onMouseEnter={e => {
-                    e.currentTarget.style.borderColor = 'var(--parchment)'
-                    e.currentTarget.style.color = 'var(--parchment)'
-                    e.currentTarget.style.background = 'rgba(255,255,255,0.1)'
+                    e.currentTarget.style.borderColor = 'var(--gold)'
+                    e.currentTarget.style.color = 'var(--gold)'
+                    e.currentTarget.style.background = 'var(--warm-white)'
                   }}
                   onMouseLeave={e => {
                     e.currentTarget.style.borderColor = 'var(--border)'
-                    e.currentTarget.style.color = 'rgba(246,243,240,0.75)'
-                    e.currentTarget.style.background = 'transparent'
+                    e.currentTarget.style.color = 'var(--gold)'
+                    e.currentTarget.style.background = 'var(--slate)'
                   }}
                 >
                   <span style={{color:'var(--gold)', fontSize:'0.7rem'}}>→</span>
@@ -901,8 +905,8 @@ function Library({ user, isPremium, setPage, progressMap, saveProgress }) {
                       style={{
                         marginTop:'0.8rem',
                         background:'none',
-                        border:'1px solid rgba(215,229,232,0.4)',
-                        color:'rgba(246,243,240,0.7)',
+                        border:'1px solid rgba(0,85,117,0.4)',
+                        color:'var(--gold)',
                         padding:'0.45rem 0.75rem',
                         cursor:'pointer',
                         fontSize:'0.7rem',
@@ -1325,6 +1329,7 @@ function DownloadsSection({ plan }) {
             return (
               <div
                 key={asset.id}
+                className="light-surface"
                 style={{
                   border:'1px solid rgba(215,229,232,0.5)',
                   background:'#dbe8eb',
@@ -1638,8 +1643,8 @@ function Dashboard({
                               style={{
                                 marginTop:'0.8rem',
                                 background:'none',
-                                border:'1px solid rgba(215,229,232,0.4)',
-                                color:'rgba(246,243,240,0.7)',
+                                border:'1px solid rgba(0,85,117,0.4)',
+                                color:'var(--gold)',
                                 padding:'0.45rem 0.75rem',
                                 cursor:'pointer',
                                 fontSize:'0.7rem',
@@ -1680,7 +1685,7 @@ function Dashboard({
             <>
               <div className="section-label">Billing</div>
 
-              <div style={{
+              <div className="light-surface" style={{
                 border:'1px solid rgba(215,229,232,0.5)',
                 background:'#dbe8eb',
                 padding:'2rem',
@@ -1794,8 +1799,8 @@ function Dashboard({
                   {!stripeCustomerId && (
                     <div style={{
                       padding:'0.9rem 1rem',
-                      border:'1px solid rgba(215,229,232,0.4)',
-                      color:'rgba(246,243,240,0.6)',
+                      border:'1px solid rgba(0,85,117,0.3)',
+                      color:'var(--gold)',
                       fontSize:'0.82rem'
                     }}>
                       No billing account connected yet.
