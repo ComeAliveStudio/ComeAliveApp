@@ -449,23 +449,51 @@ function useVideoProgress(user) {
 }
 
 // ── AUTH MODAL ────────────────────────────────────────────────────────────────
+// One passwordless flow (magic link). "Sign in" only works for existing accounts,
+// "Create account" asks for a name and an optional newsletter consent.
 function AuthModal({ onClose, defaultMode = "signin" }) {
-  const [mode, setMode]   = useState(defaultMode)
-  const [email, setEmail] = useState("")
-  const [sent, setSent]   = useState(false)
-  const [err, setErr]     = useState("")
+  const [mode, setMode]       = useState(defaultMode)
+  const [email, setEmail]     = useState("")
+  const [name, setName]       = useState("")
+  const [consent, setConsent] = useState(false)
+  const [sent, setSent]       = useState(false)
+  const [busy, setBusy]       = useState(false)
+  const [err, setErr]         = useState("")
+
+  const isSignup = mode === "signup"
+
+  const switchMode = (next) => { setMode(next); setErr("") }
 
   const handle = async () => {
+    if (busy) return
     setErr("")
-    if (mode === "signin") {
-      const { error } = await supabase.auth.signInWithOtp({
-        email,
-        options: { emailRedirectTo: window.location.origin }
-      })
-      if (error) { setErr(error.message); return }
-      setSent(true)
+    const cleanEmail = email.trim().toLowerCase()
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanEmail)) { setErr("Please enter a valid email address."); return }
+    if (isSignup && !name.trim()) { setErr("Please tell us your first name."); return }
+
+    setBusy(true)
+    const { error } = await supabase.auth.signInWithOtp({
+      email: cleanEmail,
+      options: {
+        emailRedirectTo: window.location.origin,
+        shouldCreateUser: isSignup,
+        ...(isSignup ? { data: { full_name: name.trim(), newsletter_consent: consent } } : {})
+      }
+    })
+    setBusy(false)
+
+    if (error) {
+      const notFound = /signups? not allowed|not found|no user/i.test(error.message)
+      setErr(notFound
+        ? "We could not find an account with this email. Create one below, it takes a minute."
+        : error.message)
+      return
     }
+    setEmail(cleanEmail)
+    setSent(true)
   }
+
+  const linkBtn = {background:'none', border:'none', color:'var(--gold)', cursor:'pointer', fontSize:'0.78rem', textDecoration:'underline', padding:0}
 
   return (
     <div className="modal-overlay" onClick={onClose}>
@@ -473,22 +501,50 @@ function AuthModal({ onClose, defaultMode = "signin" }) {
         {sent ? (
           <div style={{textAlign:'center'}}>
             <div style={{fontFamily:'Cormorant Garamond', fontSize:'1.8rem', color:'var(--gold)', marginBottom:'1rem'}}>Check your email.</div>
-            <p style={{color:'var(--gold)', fontSize:'0.88rem'}}>We sent a magic link to <strong style={{color:'var(--gold)'}}>{email}</strong>. Click it to sign in - no password needed.</p>
+            <p style={{color:'var(--gold)', fontSize:'0.88rem'}}>We sent a magic link to <strong style={{color:'var(--gold)'}}>{email}</strong>. Click it to {isSignup ? "confirm your account and sign in" : "sign in"} - no password needed.</p>
+            <p style={{color:'var(--azure-text)', fontSize:'0.78rem', marginTop:'1rem'}}>Nothing yet? Check your spam folder.</p>
           </div>
         ) : (
           <>
             <div style={{fontFamily:'Cormorant Garamond', fontSize:'1.6rem', color:'var(--gold)', marginBottom:'0.4rem'}}>
-              {mode === "signin" ? "Sign in" : "Create account"}
+              {isSignup ? "Create your free account" : "Sign in"}
             </div>
             <p style={{color:'var(--gold)', fontSize:'0.82rem', marginBottom:'1.5rem'}}>We'll send a magic link to your email - no password needed.</p>
-            {err && <p style={{color:'#e24b4a', fontSize:'0.82rem', marginBottom:'1rem'}}>{err}</p>}
+            {err && <p style={{color:'#b3261e', fontSize:'0.82rem', marginBottom:'1rem'}}>{err}</p>}
+
+            {isSignup && (
+              <div className="form-group" style={{marginBottom:'1rem'}}>
+                <label className="form-label">First name</label>
+                <input className="form-input" type="text" value={name} onChange={e=>setName(e.target.value)} placeholder="Your first name" autoComplete="given-name" />
+              </div>
+            )}
+
             <div className="form-group" style={{marginBottom:'1rem'}}>
               <label className="form-label">Email</label>
-              <input className="form-input" type="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="your@email.com" onKeyDown={e=>e.key==='Enter'&&handle()} />
+              <input className="form-input" type="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="your@email.com" autoComplete="email" onKeyDown={e=>e.key==='Enter'&&handle()} />
             </div>
-            <button className="btn-primary" style={{width:'100%'}} onClick={handle}>
-              {mode === "signin" ? "Send magic link" : "Create account"}
+
+            {isSignup && (
+              <>
+                <label style={{display:'flex', gap:'0.6rem', alignItems:'flex-start', color:'var(--gold)', fontSize:'0.78rem', lineHeight:1.5, marginBottom:'0.8rem', cursor:'pointer'}}>
+                  <input type="checkbox" checked={consent} onChange={e=>setConsent(e.target.checked)} style={{marginTop:'0.2rem', accentColor:'#005575'}} />
+                  <span>Send me the Come Alive newsletter: new tools, courses and ideas, a few emails a month. I can unsubscribe at any time.</span>
+                </label>
+                <p style={{color:'var(--azure-text)', fontSize:'0.72rem', lineHeight:1.5, marginBottom:'1.2rem'}}>
+                  By creating an account you agree to our <a href="/terms-of-service.html" target="_blank" rel="noreferrer" style={{color:'var(--gold)'}}>Terms of Service</a> and <a href="/privacy-policy.html" target="_blank" rel="noreferrer" style={{color:'var(--gold)'}}>Privacy Policy</a>.
+                </p>
+              </>
+            )}
+
+            <button className="btn-primary" style={{width:'100%'}} onClick={handle} disabled={busy}>
+              {busy ? "Sending…" : isSignup ? "Create account" : "Send magic link"}
             </button>
+
+            <div style={{textAlign:'center', marginTop:'1rem', color:'var(--gold)', fontSize:'0.78rem'}}>
+              {isSignup
+                ? <>Already have an account? <button style={linkBtn} onClick={()=>switchMode("signin")}>Sign in</button></>
+                : <>New here? <button style={linkBtn} onClick={()=>switchMode("signup")}>Create a free account</button></>}
+            </div>
             <button onClick={onClose} style={{width:'100%', marginTop:'0.8rem', background:'none', border:'none', color:'var(--gold)', cursor:'pointer', fontSize:'0.78rem'}}>Cancel</button>
           </>
         )}
@@ -1951,11 +2007,26 @@ useEffect(() => {
   const params = new URLSearchParams(window.location.search)
   const pageParam = params.get('page')
 
-  if (pageParam && ['home','library','booking','contact','dashboard'].includes(pageParam)) {
+  if (pageParam && ['home','library','tools','booking','contact','dashboard'].includes(pageParam)) {
   setPage(pageParam)
   window.history.replaceState({}, '', window.location.pathname)
   }
 }, [])
+
+  // After a confirmed sign-in: create the member row and send the welcome email (the server
+  // does this only once, and only for new accounts). Asked once per browser session.
+  useEffect(() => {
+    if (!user?.email) return
+    const flag = `welcome-checked:${user.email}`
+    try { if (sessionStorage.getItem(flag)) return } catch (e) {}
+    supabase.auth.getSession().then(({ data }) => {
+      const token = data.session?.access_token
+      if (!token) return
+      fetch('/api/welcome', { method: 'POST', headers: { Authorization: `Bearer ${token}` } })
+        .then(r => { if (r.ok) { try { sessionStorage.setItem(flag, '1') } catch (e) {} } })
+        .catch(() => {})
+    })
+  }, [user?.email])
 
   // Handle Stripe success redirect — retry fetchPlan up to 8x with 2s intervals
   // to give the webhook enough time to write to Supabase
