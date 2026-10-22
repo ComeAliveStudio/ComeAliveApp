@@ -135,7 +135,7 @@ const PLANS = {
   },
   master: {
     label: 'Master Planner',
-    perks: ['Everything in Founding Member', 'One private coaching session', 'Direct messaging access', 'Custom growth roadmap', 'Privileged access to new courses'],
+    perks: ['Everything in Founding Member', '3 private coaching sessions (45 min), one a month', 'Direct messaging access', 'Custom growth roadmap', 'Privileged access to new courses'],
   },
 }
 
@@ -149,7 +149,7 @@ export function membershipEmail({ name = '', plan = 'founding' } = {}) {
     p(`Your <strong>${info.label}</strong> membership is now active.`) +
     callout('What is included', info.perks.map((x) => `· ${x}`).join('<br />')) +
     button(`${SITE}/?page=dashboard`, 'Go to your dashboard') +
-    p('You can manage or cancel your subscription at any time from the Billing section of your dashboard.') +
+    p(plan === 'master' ? 'Your Master Planner access runs for three months. You can renew from the Billing section of your dashboard whenever you are ready.' : 'You can manage or cancel your subscription at any time from the Billing section of your dashboard.') +
     p('If something does not work, just reply to this email and we will help.')
 
   const html = layout({ preheader: `Your ${info.label} membership is active.`, title: subject, body })
@@ -163,7 +163,7 @@ ${info.perks.map((x) => `- ${x.replace(/&amp;/g, '&')}`).join('\n')}
 
 Go to your dashboard: ${SITE}/?page=dashboard
 
-You can manage or cancel your subscription at any time from the Billing section of your dashboard.
+${plan === 'master' ? 'Your Master Planner access runs for three months. You can renew from the Billing section of your dashboard whenever you are ready.' : 'You can manage or cancel your subscription at any time from the Billing section of your dashboard.'}
 If something does not work, just reply to this email and we will help.
 
 Come Alive Studio - Support Team

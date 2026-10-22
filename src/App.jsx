@@ -20,8 +20,8 @@ const ADDONS = {
 }
 
 const PRICES = {
-  founding:     "price_REPLACE_FOUNDING_MONTHLY",    // €9/month — create in Stripe Dashboard
-  master:       "price_REPLACE_MASTER_YEARLY",        // €97/year  — create in Stripe Dashboard
+  founding:     "price_REPLACE_FOUNDING_MONTHLY",    // 29 EUR/month - create in Stripe Dashboard
+  master:       "price_REPLACE_MASTER_3MONTHS",       // 290 EUR one-time, 3 months - create in Stripe Dashboard
   discovery:    "price_1TGR3BE72B8UAf4GM1udhJHX",
   filmmaking:   "price_1TGMflE72B8UAf4GqOpfrAXO",
   relationship: "price_1TGMgME72B8UAf4GkqcoJwBQ",
@@ -271,14 +271,14 @@ const COURSE_ADDONS = {
 // ── STRIPE PAYMENT LINKS ─────────────────────────────────────────────────────
 // HOW TO CREATE:
 //  1. dashboard.stripe.com → Payment Links → + New
-//  2. Founding Member: product "Founding Member", €9 recurring monthly
-//  3. Master Planner:  product "Master Planner",  €97 recurring yearly
+//  2. Founding Member: product "Founding Member", 29 EUR recurring monthly
+//  3. Master Planner:  product "Master Planner (3 months)", 290 EUR one-time payment
 //  4. In each link's Stripe settings → After payment → redirect to:
 //     https://app.comealive.vision/?payment=success
 // ─────────────────────────────────────────────────────────────────────────────
 const PAYMENT_LINKS = {
-  founding:     "https://buy.stripe.com/test_8x26oHgb50RRbbkfOagUM05",  // €9/month
-  master:       "https://buy.stripe.com/test_14A4gzaQLgQPa7g8lIgUM06",   // €97/year
+  founding:     "https://buy.stripe.com/test_8x26oHgb50RRbbkfOagUM05",  // 29 EUR/month
+  master:       "https://buy.stripe.com/test_14A4gzaQLgQPa7g8lIgUM06",   // 290 EUR, one payment for 3 months
   filmmaking:   "https://buy.stripe.com/test_28E7sL9MHdED3ISfOagUM02",
   relationship: "https://buy.stripe.com/test_00w4gz0c77gfdjs6dAgUM03",
   mindset:      "https://buy.stripe.com/test_bJe3cv7Ez587djs0TggUM04",
@@ -364,7 +364,8 @@ function useAuth() {
 
   // isPremium: check plan field only — planStatus may be null if webhook is slow
   // isPremium: new plan names + old names kept for existing subscribers during migration
-  const isPremium = plan === "founding" || plan === "master" || plan === "professional" || plan === "mastery"
+  const masterActive = !planExpiresAt || new Date(planExpiresAt) > new Date()
+  const isPremium = plan === "founding" || plan === "professional" || plan === "mastery" || (plan === "master" && masterActive)
 
   return {
     user,
@@ -678,7 +679,7 @@ function Tiers({ setPage }) {
           {/* Founding Member – featured */}
           <div className="tier-card featured">
             <div className="tier-name">Founding Member</div>
-            <div className="tier-price">€9 <span>/ month</span></div>
+            <div className="tier-price">€29 <span>/ month</span></div>
             <div className="tier-desc">Support the work. Get the tools.</div>
             <ul className="tier-features">
               <li>Everything in Explorer</li>
@@ -692,11 +693,11 @@ function Tiers({ setPage }) {
           {/* Master Planner */}
           <div className="tier-card">
             <div className="tier-name">Master Planner</div>
-            <div className="tier-price">€97 <span>/ year</span></div>
-            <div className="tier-desc">One session. One year of momentum.</div>
+            <div className="tier-price">€290 <span>/ 3 months</span></div>
+            <div className="tier-desc">Three months, one session a month. About €97 a month. Renew when you are ready.</div>
             <ul className="tier-features">
               <li>Everything in Founding Member</li>
-              <li>1× private coaching session</li>
+              <li>3 private coaching sessions (45 min), one a month</li>
               <li>Direct messaging access</li>
               <li>Custom growth roadmap</li>
               <li>Privileged access to new courses</li>
@@ -1903,17 +1904,17 @@ function Dashboard({
                       onClick={() => goToStripe('founding')}
                       style={{width:'100%'}}
                     >
-                      Become a Founding Member — €9/mo
+                      Become a Founding Member - €29/mo
                     </button>
                   )}
 
-                  {plan !== 'master' && plan !== 'mastery' && (
+                  {(plan !== 'master' && plan !== 'mastery' || (plan === 'master' && planExpiresAt && new Date(planExpiresAt) < new Date())) && (
                     <button
                       className="btn-ghost"
                       onClick={() => goToStripe('master')}
                       style={{width:'100%'}}
                     >
-                      Upgrade to Master Planner — €97/yr
+                      {plan === 'master' ? 'Renew Master Planner' : 'Upgrade to Master Planner'} - €290 / 3 months
                     </button>
                   )}
 
