@@ -20,8 +20,8 @@ const ADDONS = {
 }
 
 const PRICES = {
-  founding:     "price_REPLACE_FOUNDING_MONTHLY",    // €9/month — create in Stripe Dashboard
-  master:       "price_REPLACE_MASTER_YEARLY",        // €97/year  — create in Stripe Dashboard
+  founding:     "price_REPLACE_FOUNDING_MONTHLY",    // 29 EUR/month - create in Stripe Dashboard
+  master:       "price_REPLACE_MASTER_3MONTHS",       // 290 EUR one-time, 3 months - create in Stripe Dashboard
   discovery:    "price_1TGR3BE72B8UAf4GM1udhJHX",
   filmmaking:   "price_1TGMflE72B8UAf4GqOpfrAXO",
   relationship: "price_1TGMgME72B8UAf4GkqcoJwBQ",
@@ -32,6 +32,7 @@ const css = `
   @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&family=Outfit:wght@300;400;500&display=swap');
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
+    --azure-text: #2d6078;
     --ink: #4f889f; --parchment: #f6f3f0; --warm-white: #faf8f3;
     --gold: #005575; --gold-light: #4f889f; --gold-dim: #005575;
     --slate: #dbe8eb; --mist: #4f889f; --border: rgba(215,229,232,0.85);
@@ -71,7 +72,7 @@ const css = `
   .loading-wordmark { font-family:'Cormorant Garamond', serif; font-size:1.2rem; letter-spacing:0.28em; color:rgba(246,243,240,0.7); text-transform:uppercase; }
   .loading-bar { width:120px; height:1px; background:var(--parchment); animation:shimmerPulse 1.8s ease-in-out infinite; transform-origin:center; }
   section { padding: 6rem 3rem; }
-  .section-label { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 3rem; display: flex; align-items: center; gap: 1rem; }
+  .section-label { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--parchment); margin-bottom: 3rem; display: flex; align-items: center; gap: 1rem; }
   .section-label::after { content: ''; flex: 1; max-width: 60px; height: 1px; background: var(--border); }
   h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 4vw, 3rem); font-weight: 300; color: var(--parchment); line-height: 1.15; margin-bottom: 1.2rem; }
   h2 em { font-style: italic; color: rgba(246,243,240,0.75); }
@@ -92,8 +93,8 @@ const css = `
   .tier-card.featured::before { content: 'Early Access'; position: absolute; top: -1px; left: 50%; transform: translateX(-50%); background: linear-gradient(90deg, var(--gold-dim) 0%, var(--gold) 40%, var(--gold-light) 60%, var(--gold) 100%); background-size: 200% 100%; animation: badgeSheen 3s ease-in-out infinite; color: var(--parchment); font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase; padding: 0.3rem 1rem; font-weight: 500; white-space: nowrap; }
   .tier-name { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; color: var(--gold); margin-bottom: 0.5rem; }
   .tier-price { font-family: 'Cormorant Garamond', serif; font-size: 2.8rem; color: var(--gold); font-weight: 300; line-height: 1; margin: 1rem 0 0.3rem; }
-  .tier-price span { font-size: 1rem; color: #4f889f; }
-  .tier-desc { font-size: 0.82rem; color: #4f889f; margin-bottom: 1.8rem; }
+  .tier-price span { font-size: 1rem; color: var(--azure-text); }
+  .tier-desc { font-size: 0.82rem; color: var(--azure-text); margin-bottom: 1.8rem; }
   .tier-features { list-style: none; margin-bottom: 2rem; }
   .tier-features li { font-size: 0.83rem; color: var(--card-text); padding: 0.5rem 0; border-bottom: 1px solid rgba(0,85,117,0.12); display: flex; align-items: center; gap: 0.6rem; }
   .tier-features li::before { content: '→'; color: var(--gold); font-size: 0.7rem; }
@@ -114,7 +115,7 @@ const css = `
   .video-lock { position: absolute; top: 0.8rem; right: 0.8rem; background: rgba(0,63,90,0.75); padding: 0.3rem 0.6rem; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(246,243,240,0.8); border: 1px solid rgba(215,229,232,0.3); font-family: 'DM Mono', monospace; }
   .video-free { background: rgba(0,85,117,0.2); color: var(--parchment); border-color: rgba(0,85,117,0.5); }
   .video-info { padding: 1.2rem; }
-  .video-duration { font-family: 'DM Mono', monospace; font-size: 0.62rem; color: #4f889f; letter-spacing: 0.1em; margin-bottom: 0.4rem; }
+  .video-duration { font-family: 'DM Mono', monospace; font-size: 0.62rem; color: var(--azure-text); letter-spacing: 0.1em; margin-bottom: 0.4rem; }
   .video-title { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--gold); line-height: 1.3; margin-bottom: 0.4rem; }
   .video-desc { font-size: 0.78rem; color: var(--card-text); }
   .booking-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; max-width: 900px; margin: 2rem auto 0; }
@@ -122,14 +123,14 @@ const css = `
   .session-type:hover, .session-type.active { border-color: var(--gold); }
   .session-type.active { background: rgba(0,85,117,0.08); }
   .session-name { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--gold); margin-bottom: 0.3rem; }
-  .session-meta { font-family: 'DM Mono', monospace; font-size: 0.65rem; color: #4f889f; letter-spacing: 0.1em; }
+  .session-meta { font-family: 'DM Mono', monospace; font-size: 0.65rem; color: var(--azure-text); letter-spacing: 0.1em; }
   .booking-form { display: flex; flex-direction: column; gap: 1rem; }
   .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
-  .form-label { font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(246,243,240,0.7); font-family: 'DM Mono', monospace; }
-  .form-input, .form-select, .form-textarea { background: rgba(255,255,255,0.12); border: 1px solid rgba(215,229,232,0.4); color: var(--parchment); padding: 0.75rem 1rem; font-family: 'Outfit', sans-serif; font-size: 0.88rem; font-weight: 300; transition: border-color 0.2s; width: 100%; }
-  .form-input::placeholder, .form-textarea::placeholder { color: rgba(246,243,240,0.4); }
-  .form-input:focus, .form-select:focus, .form-textarea:focus { outline: none; border-color: var(--parchment); }
-  .form-select option { background: #3a7490; color: var(--parchment); }
+  .form-label { font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--parchment); font-family: 'DM Mono', monospace; }
+  .form-input, .form-select, .form-textarea { background: var(--warm-white); border: 1px solid var(--mist); color: var(--gold); padding: 0.75rem 1rem; font-family: 'Outfit', sans-serif; font-size: 0.88rem; font-weight: 300; transition: border-color 0.2s; width: 100%; }
+  .form-input::placeholder, .form-textarea::placeholder { color: rgba(0,85,117,0.55); }
+  .form-input:focus, .form-select:focus, .form-textarea:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 2px rgba(0,85,117,0.25); }
+  .form-select option { background: var(--warm-white); color: var(--gold); }
   .form-textarea { resize: vertical; min-height: 100px; }
   .contact-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 5rem; max-width: 950px; margin: 2rem auto 0; align-items: start; }
   .contact-detail { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; }
@@ -145,9 +146,9 @@ const css = `
   .dash-content { padding: 2.5rem 3rem; }
   .dash-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 3rem; }
   .dash-card { background: #dbe8eb; border: 1px solid rgba(215,229,232,0.6); padding: 1.8rem; }
-  .dash-card-label { font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase; color: #4f889f; margin-bottom: 0.8rem; }
+  .dash-card-label { font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--azure-text); margin-bottom: 0.8rem; }
   .dash-card-value { font-family: 'Cormorant Garamond', serif; font-size: 2.4rem; color: var(--gold); font-weight: 300; line-height: 1; }
-  .dash-card-sub { font-size: 0.75rem; color: #4f889f; margin-top: 0.4rem; }
+  .dash-card-sub { font-size: 0.75rem; color: var(--azure-text); margin-top: 0.4rem; }
   .progress-bar { height: 3px; background: rgba(0,85,117,0.18); margin-top: 1rem; border-radius: 2px; }
   .progress-fill { height: 100%; background: linear-gradient(90deg, var(--gold-dim), var(--gold)); border-radius: 2px; transition: width 0.6s ease; box-shadow: 0 0 6px rgba(0,85,117,0.25); }
   .plan-badge { display:inline-flex; align-items:center; padding:0.3rem 0.8rem; border:1px solid rgba(215,229,232,0.4); font-family:'DM Mono', monospace; font-size:0.62rem; letter-spacing:0.12em; text-transform:uppercase; color:rgba(246,243,240,0.6); }
@@ -161,6 +162,9 @@ const css = `
   .success-msg { background: rgba(219,232,235,0.2); border: 1px solid var(--parchment); padding: 2rem; text-align: center; font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; color: var(--parchment); }
   .modal-overlay { position: fixed; inset: 0; background: rgba(0,63,90,0.85); z-index: 200; display: flex; align-items: center; justify-content: center; animation: fadeIn 0.2s ease; }
   .modal-box { background: #dbe8eb; border: 1px solid var(--gold); padding: 3rem; max-width: 420px; width: 90%; animation: slideUp 0.25s ease; }
+  .modal-box .form-label, .light-surface .form-label { color: var(--gold); }
+  .modal-box .btn-ghost, .light-surface .btn-ghost { color: var(--gold); border-color: var(--gold); }
+  .modal-box .btn-ghost:hover, .light-surface .btn-ghost:hover { background: rgba(0,85,117,0.08); border-color: var(--gold); }
   .max-w { max-width: 1100px; margin: 0 auto; }
   .text-center { text-align: center; }
   /* ── VIDEO HERO ── */
@@ -267,14 +271,14 @@ const COURSE_ADDONS = {
 // ── STRIPE PAYMENT LINKS ─────────────────────────────────────────────────────
 // HOW TO CREATE:
 //  1. dashboard.stripe.com → Payment Links → + New
-//  2. Founding Member: product "Founding Member", €9 recurring monthly
-//  3. Master Planner:  product "Master Planner",  €97 recurring yearly
+//  2. Founding Member: product "Founding Member", 29 EUR recurring monthly
+//  3. Master Planner:  product "Master Planner (3 months)", 290 EUR one-time payment
 //  4. In each link's Stripe settings → After payment → redirect to:
 //     https://app.comealive.vision/?payment=success
 // ─────────────────────────────────────────────────────────────────────────────
 const PAYMENT_LINKS = {
-  founding:     "https://buy.stripe.com/test_8x26oHgb50RRbbkfOagUM05",  // €9/month
-  master:       "https://buy.stripe.com/test_14A4gzaQLgQPa7g8lIgUM06",   // €97/year
+  founding:     "https://buy.stripe.com/test_8x26oHgb50RRbbkfOagUM05",  // 29 EUR/month
+  master:       "https://buy.stripe.com/test_14A4gzaQLgQPa7g8lIgUM06",   // 290 EUR, one payment for 3 months
   filmmaking:   "https://buy.stripe.com/test_28E7sL9MHdED3ISfOagUM02",
   relationship: "https://buy.stripe.com/test_00w4gz0c77gfdjs6dAgUM03",
   mindset:      "https://buy.stripe.com/test_bJe3cv7Ez587djs0TggUM04",
@@ -360,7 +364,8 @@ function useAuth() {
 
   // isPremium: check plan field only — planStatus may be null if webhook is slow
   // isPremium: new plan names + old names kept for existing subscribers during migration
-  const isPremium = plan === "founding" || plan === "master" || plan === "professional" || plan === "mastery"
+  const masterActive = !planExpiresAt || new Date(planExpiresAt) > new Date()
+  const isPremium = plan === "founding" || plan === "professional" || plan === "mastery" || (plan === "master" && masterActive)
 
   return {
     user,
@@ -445,23 +450,51 @@ function useVideoProgress(user) {
 }
 
 // ── AUTH MODAL ────────────────────────────────────────────────────────────────
+// One passwordless flow (magic link). "Sign in" only works for existing accounts,
+// "Create account" asks for a name and an optional newsletter consent.
 function AuthModal({ onClose, defaultMode = "signin" }) {
-  const [mode, setMode]   = useState(defaultMode)
-  const [email, setEmail] = useState("")
-  const [sent, setSent]   = useState(false)
-  const [err, setErr]     = useState("")
+  const [mode, setMode]       = useState(defaultMode)
+  const [email, setEmail]     = useState("")
+  const [name, setName]       = useState("")
+  const [consent, setConsent] = useState(false)
+  const [sent, setSent]       = useState(false)
+  const [busy, setBusy]       = useState(false)
+  const [err, setErr]         = useState("")
+
+  const isSignup = mode === "signup"
+
+  const switchMode = (next) => { setMode(next); setErr("") }
 
   const handle = async () => {
+    if (busy) return
     setErr("")
-    if (mode === "signin") {
-      const { error } = await supabase.auth.signInWithOtp({
-        email,
-        options: { emailRedirectTo: window.location.origin }
-      })
-      if (error) { setErr(error.message); return }
-      setSent(true)
+    const cleanEmail = email.trim().toLowerCase()
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanEmail)) { setErr("Please enter a valid email address."); return }
+    if (isSignup && !name.trim()) { setErr("Please tell us your first name."); return }
+
+    setBusy(true)
+    const { error } = await supabase.auth.signInWithOtp({
+      email: cleanEmail,
+      options: {
+        emailRedirectTo: window.location.origin,
+        shouldCreateUser: isSignup,
+        ...(isSignup ? { data: { full_name: name.trim(), newsletter_consent: consent } } : {})
+      }
+    })
+    setBusy(false)
+
+    if (error) {
+      const notFound = /signups? not allowed|not found|no user/i.test(error.message)
+      setErr(notFound
+        ? "We could not find an account with this email. Create one below, it takes a minute."
+        : error.message)
+      return
     }
+    setEmail(cleanEmail)
+    setSent(true)
   }
+
+  const linkBtn = {background:'none', border:'none', color:'var(--gold)', cursor:'pointer', fontSize:'0.78rem', textDecoration:'underline', padding:0}
 
   return (
     <div className="modal-overlay" onClick={onClose}>
@@ -469,23 +502,51 @@ function AuthModal({ onClose, defaultMode = "signin" }) {
         {sent ? (
           <div style={{textAlign:'center'}}>
             <div style={{fontFamily:'Cormorant Garamond', fontSize:'1.8rem', color:'var(--gold)', marginBottom:'1rem'}}>Check your email.</div>
-            <p style={{color:'rgba(246,243,240,0.7)', fontSize:'0.88rem'}}>We sent a magic link to <strong style={{color:'var(--parchment)'}}>{email}</strong>. Click it to sign in — no password needed.</p>
+            <p style={{color:'var(--gold)', fontSize:'0.88rem'}}>We sent a magic link to <strong style={{color:'var(--gold)'}}>{email}</strong>. Click it to {isSignup ? "confirm your account and sign in" : "sign in"} - no password needed.</p>
+            <p style={{color:'var(--azure-text)', fontSize:'0.78rem', marginTop:'1rem'}}>Nothing yet? Check your spam folder.</p>
           </div>
         ) : (
           <>
-            <div style={{fontFamily:'Cormorant Garamond', fontSize:'1.6rem', color:'var(--parchment)', marginBottom:'0.4rem'}}>
-              {mode === "signin" ? "Sign in" : "Create account"}
+            <div style={{fontFamily:'Cormorant Garamond', fontSize:'1.6rem', color:'var(--gold)', marginBottom:'0.4rem'}}>
+              {isSignup ? "Create your free account" : "Sign in"}
             </div>
-            <p style={{color:'rgba(246,243,240,0.7)', fontSize:'0.82rem', marginBottom:'1.5rem'}}>We'll send a magic link to your email — no password needed.</p>
-            {err && <p style={{color:'#e24b4a', fontSize:'0.82rem', marginBottom:'1rem'}}>{err}</p>}
+            <p style={{color:'var(--gold)', fontSize:'0.82rem', marginBottom:'1.5rem'}}>We'll send a magic link to your email - no password needed.</p>
+            {err && <p style={{color:'#b3261e', fontSize:'0.82rem', marginBottom:'1rem'}}>{err}</p>}
+
+            {isSignup && (
+              <div className="form-group" style={{marginBottom:'1rem'}}>
+                <label className="form-label">First name</label>
+                <input className="form-input" type="text" value={name} onChange={e=>setName(e.target.value)} placeholder="Your first name" autoComplete="given-name" />
+              </div>
+            )}
+
             <div className="form-group" style={{marginBottom:'1rem'}}>
               <label className="form-label">Email</label>
-              <input className="form-input" type="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="your@email.com" onKeyDown={e=>e.key==='Enter'&&handle()} />
+              <input className="form-input" type="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="your@email.com" autoComplete="email" onKeyDown={e=>e.key==='Enter'&&handle()} />
             </div>
-            <button className="btn-primary" style={{width:'100%'}} onClick={handle}>
-              {mode === "signin" ? "Send magic link" : "Create account"}
+
+            {isSignup && (
+              <>
+                <label style={{display:'flex', gap:'0.6rem', alignItems:'flex-start', color:'var(--gold)', fontSize:'0.78rem', lineHeight:1.5, marginBottom:'0.8rem', cursor:'pointer'}}>
+                  <input type="checkbox" checked={consent} onChange={e=>setConsent(e.target.checked)} style={{marginTop:'0.2rem', accentColor:'#005575'}} />
+                  <span>Send me the Come Alive newsletter: new tools, courses and ideas, a few emails a month. I can unsubscribe at any time.</span>
+                </label>
+                <p style={{color:'var(--azure-text)', fontSize:'0.72rem', lineHeight:1.5, marginBottom:'1.2rem'}}>
+                  By creating an account you agree to our <a href="/terms-of-service.html" target="_blank" rel="noreferrer" style={{color:'var(--gold)'}}>Terms of Service</a> and <a href="/privacy-policy.html" target="_blank" rel="noreferrer" style={{color:'var(--gold)'}}>Privacy Policy</a>.
+                </p>
+              </>
+            )}
+
+            <button className="btn-primary" style={{width:'100%'}} onClick={handle} disabled={busy}>
+              {busy ? "Sending…" : isSignup ? "Create account" : "Send magic link"}
             </button>
-            <button onClick={onClose} style={{width:'100%', marginTop:'0.8rem', background:'none', border:'none', color:'rgba(246,243,240,0.7)', cursor:'pointer', fontSize:'0.78rem'}}>Cancel</button>
+
+            <div style={{textAlign:'center', marginTop:'1rem', color:'var(--gold)', fontSize:'0.78rem'}}>
+              {isSignup
+                ? <>Already have an account? <button style={linkBtn} onClick={()=>switchMode("signin")}>Sign in</button></>
+                : <>New here? <button style={linkBtn} onClick={()=>switchMode("signup")}>Create a free account</button></>}
+            </div>
+            <button onClick={onClose} style={{width:'100%', marginTop:'0.8rem', background:'none', border:'none', color:'var(--gold)', cursor:'pointer', fontSize:'0.78rem'}}>Cancel</button>
           </>
         )}
       </div>
@@ -499,7 +560,7 @@ function NavBar({ setPage, user, onSignIn, onSignOut }) {
     <nav>
       <span className="nav-logo" onClick={() => setPage('home')}>Come Alive Studio</span>
      <ul className="nav-links">
-  {['Library','Booking','Contact'].map(p => (
+  {['Library','Tools','Booking','Contact'].map(p => (
     <li key={p}>
       <a onClick={() => setPage(p.toLowerCase())}>{p}</a>
     </li>
@@ -618,7 +679,7 @@ function Tiers({ setPage }) {
           {/* Founding Member – featured */}
           <div className="tier-card featured">
             <div className="tier-name">Founding Member</div>
-            <div className="tier-price">€9 <span>/ month</span></div>
+            <div className="tier-price">€29 <span>/ month</span></div>
             <div className="tier-desc">Support the work. Get the tools.</div>
             <ul className="tier-features">
               <li>Everything in Explorer</li>
@@ -632,11 +693,11 @@ function Tiers({ setPage }) {
           {/* Master Planner */}
           <div className="tier-card">
             <div className="tier-name">Master Planner</div>
-            <div className="tier-price">€97 <span>/ year</span></div>
-            <div className="tier-desc">One session. One year of momentum.</div>
+            <div className="tier-price">€290 <span>/ 3 months</span></div>
+            <div className="tier-desc">Three months, one session a month. About €97 a month. Renew when you are ready.</div>
             <ul className="tier-features">
               <li>Everything in Founding Member</li>
-              <li>1× private coaching session</li>
+              <li>3 private coaching sessions (45 min), one a month</li>
               <li>Direct messaging access</li>
               <li>Custom growth roadmap</li>
               <li>Privileged access to new courses</li>
@@ -759,21 +820,22 @@ function ConciergeSection() {
                     gap: '0.6rem',
                     padding: '0.65rem 1rem',
                     border: '1px solid var(--border)',
-                    color: 'var(--mist)',
+                    background: 'var(--slate)',
+                    color: 'var(--gold)',
                     fontSize: '0.8rem',
                     letterSpacing: '0.06em',
                     textDecoration: 'none',
                     transition: 'all 0.2s',
                   }}
                   onMouseEnter={e => {
-                    e.currentTarget.style.borderColor = 'var(--parchment)'
-                    e.currentTarget.style.color = 'var(--parchment)'
-                    e.currentTarget.style.background = 'rgba(255,255,255,0.1)'
+                    e.currentTarget.style.borderColor = 'var(--gold)'
+                    e.currentTarget.style.color = 'var(--gold)'
+                    e.currentTarget.style.background = 'var(--warm-white)'
                   }}
                   onMouseLeave={e => {
                     e.currentTarget.style.borderColor = 'var(--border)'
-                    e.currentTarget.style.color = 'rgba(246,243,240,0.75)'
-                    e.currentTarget.style.background = 'transparent'
+                    e.currentTarget.style.color = 'var(--gold)'
+                    e.currentTarget.style.background = 'var(--slate)'
                   }}
                 >
                   <span style={{color:'var(--gold)', fontSize:'0.7rem'}}>→</span>
@@ -901,8 +963,8 @@ function Library({ user, isPremium, setPage, progressMap, saveProgress }) {
                       style={{
                         marginTop:'0.8rem',
                         background:'none',
-                        border:'1px solid rgba(215,229,232,0.4)',
-                        color:'rgba(246,243,240,0.7)',
+                        border:'1px solid rgba(0,85,117,0.4)',
+                        color:'var(--gold)',
                         padding:'0.45rem 0.75rem',
                         cursor:'pointer',
                         fontSize:'0.7rem',
@@ -1005,6 +1067,73 @@ function Library({ user, isPremium, setPage, progressMap, saveProgress }) {
             </div>
           </div>
         )}
+      </div>
+    </div>
+  )
+}
+
+// ── TOOLS ─────────────────────────────────────────────────────────────────────
+// Static pages in /public, each one is a companion tool of "Your Master Relationship Manual"
+const TOOLS = [
+  {
+    title: "Relationship Clarity Checklist",
+    desc: "Check what you observe and what you feel. Let the numbers tell you what your heart already knows.",
+    href: "/clarity-tool/",
+  },
+  {
+    title: "Relationship Phases Framework",
+    desc: "Allow reality to emerge before attachment takes over. Find out which phase you are in.",
+    href: "/relationship-phases/",
+  },
+]
+
+function ToolsList() {
+  return (
+    <div style={{display:'grid', gap:'1rem', maxWidth:'820px'}}>
+      {TOOLS.map(t => (
+        <div
+          key={t.href}
+          className="light-surface"
+          style={{
+            border:'1px solid rgba(215,229,232,0.5)',
+            background:'#dbe8eb',
+            padding:'1.4rem',
+            display:'flex',
+            justifyContent:'space-between',
+            alignItems:'center',
+            gap:'1rem',
+            flexWrap:'wrap'
+          }}
+        >
+          <div style={{flex:'1 1 280px'}}>
+            <div style={{fontFamily:'Cormorant Garamond', fontSize:'1.4rem', color:'var(--gold)', marginBottom:'0.35rem'}}>
+              {t.title}
+            </div>
+            <div style={{color:'var(--card-text)', fontSize:'0.88rem'}}>{t.desc}</div>
+          </div>
+          <a
+            href={t.href}
+            className="btn-primary"
+            style={{textDecoration:'none', display:'inline-flex', alignItems:'center'}}
+          >
+            Open tool
+          </a>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+function ToolsPage() {
+  return (
+    <div style={{background:'#4f889f', paddingTop:'6rem', minHeight:'100vh'}}>
+      <div className="max-w" style={{padding:'4rem 3rem'}}>
+        <div className="section-label">Free Tools</div>
+        <h2>Interactive tools <em>from the book</em></h2>
+        <p style={{color:'rgba(246,243,240,0.85)', marginBottom:'2.5rem', fontSize:'0.9rem', maxWidth:520}}>
+          Short guided tools from Your Master Relationship Manual. Free to use, no account needed.
+        </p>
+        <ToolsList />
       </div>
     </div>
   )
@@ -1179,7 +1308,7 @@ function Contact() {
                 target={d.href.startsWith('mailto') ? undefined : '_blank'}
                 rel="noreferrer"
                 style={{textDecoration:'none', display:'block'}}
-                onMouseEnter={e => e.currentTarget.querySelector('.contact-detail-text strong').style.color = 'var(--gold)'}
+                onMouseEnter={e => e.currentTarget.querySelector('.contact-detail-text strong').style.color = '#ffffff'}
                 onMouseLeave={e => e.currentTarget.querySelector('.contact-detail-text strong').style.color = 'var(--parchment)'}
               >
                 <div className="contact-detail">
@@ -1325,6 +1454,7 @@ function DownloadsSection({ plan }) {
             return (
               <div
                 key={asset.id}
+                className="light-surface"
                 style={{
                   border:'1px solid rgba(215,229,232,0.5)',
                   background:'#dbe8eb',
@@ -1411,6 +1541,7 @@ function Dashboard({
   const navItems = [
     { id:'overview', label:'Overview', icon:'◈' },
     { id:'courses', label:'My Courses', icon:'▤' },
+    { id:'tools', label:'Tools', icon:'✦' },
     { id:'downloads', label:'Downloads', icon:'⇩' },
     { id:'billing', label:'Billing', icon:'◧' },
     { id:'sessions', label:'Sessions', icon:'◷' },
@@ -1516,7 +1647,7 @@ function Dashboard({
         alignItems:'center'
       }}>
         <div style={{fontFamily:'Cormorant Garamond', fontSize:'1.6rem', fontWeight:300}}>
-          Welcome back, <span style={{color:'var(--gold)'}}>{user?.email?.split('@')[0]}</span>
+          Welcome back, <span style={{color:'#ffffff', fontStyle:'italic'}}>{user?.email?.split('@')[0]}</span>
         </div>
         <div className={`plan-badge ${planStatus==='active'||planStatus==='trialing'?'active':''}`}>
           {plan} · {planStatus || 'free'}
@@ -1638,8 +1769,8 @@ function Dashboard({
                               style={{
                                 marginTop:'0.8rem',
                                 background:'none',
-                                border:'1px solid rgba(215,229,232,0.4)',
-                                color:'rgba(246,243,240,0.7)',
+                                border:'1px solid rgba(0,85,117,0.4)',
+                                color:'var(--gold)',
                                 padding:'0.45rem 0.75rem',
                                 cursor:'pointer',
                                 fontSize:'0.7rem',
@@ -1672,6 +1803,13 @@ function Dashboard({
             </>
           )}
 
+          {activeSection==='tools' && (
+            <>
+              <div className="section-label">Tools</div>
+              <ToolsList />
+            </>
+          )}
+
           {activeSection==='downloads' && (
             <DownloadsSection plan={plan} />
           )}
@@ -1680,7 +1818,7 @@ function Dashboard({
             <>
               <div className="section-label">Billing</div>
 
-              <div style={{
+              <div className="light-surface" style={{
                 border:'1px solid rgba(215,229,232,0.5)',
                 background:'#dbe8eb',
                 padding:'2rem',
@@ -1766,17 +1904,17 @@ function Dashboard({
                       onClick={() => goToStripe('founding')}
                       style={{width:'100%'}}
                     >
-                      Become a Founding Member — €9/mo
+                      Become a Founding Member - €29/mo
                     </button>
                   )}
 
-                  {plan !== 'master' && plan !== 'mastery' && (
+                  {(plan !== 'master' && plan !== 'mastery' || (plan === 'master' && planExpiresAt && new Date(planExpiresAt) < new Date())) && (
                     <button
                       className="btn-ghost"
                       onClick={() => goToStripe('master')}
                       style={{width:'100%'}}
                     >
-                      Upgrade to Master Planner — €97/yr
+                      {plan === 'master' ? 'Renew Master Planner' : 'Upgrade to Master Planner'} - €290 / 3 months
                     </button>
                   )}
 
@@ -1794,8 +1932,8 @@ function Dashboard({
                   {!stripeCustomerId && (
                     <div style={{
                       padding:'0.9rem 1rem',
-                      border:'1px solid rgba(215,229,232,0.4)',
-                      color:'rgba(246,243,240,0.6)',
+                      border:'1px solid rgba(0,85,117,0.3)',
+                      color:'var(--gold)',
                       fontSize:'0.82rem'
                     }}>
                       No billing account connected yet.
@@ -1870,11 +2008,26 @@ useEffect(() => {
   const params = new URLSearchParams(window.location.search)
   const pageParam = params.get('page')
 
-  if (pageParam && ['home','library','booking','contact','dashboard'].includes(pageParam)) {
+  if (pageParam && ['home','library','tools','booking','contact','dashboard'].includes(pageParam)) {
   setPage(pageParam)
   window.history.replaceState({}, '', window.location.pathname)
   }
 }, [])
+
+  // After a confirmed sign-in: create the member row and send the welcome email (the server
+  // does this only once, and only for new accounts). Asked once per browser session.
+  useEffect(() => {
+    if (!user?.email) return
+    const flag = `welcome-checked:${user.email}`
+    try { if (sessionStorage.getItem(flag)) return } catch (e) {}
+    supabase.auth.getSession().then(({ data }) => {
+      const token = data.session?.access_token
+      if (!token) return
+      fetch('/api/welcome', { method: 'POST', headers: { Authorization: `Bearer ${token}` } })
+        .then(r => { if (r.ok) { try { sessionStorage.setItem(flag, '1') } catch (e) {} } })
+        .catch(() => {})
+    })
+  }, [user?.email])
 
   // Handle Stripe success redirect — retry fetchPlan up to 8x with 2s intervals
   // to give the webhook enough time to write to Supabase
@@ -1947,7 +2100,7 @@ useEffect(() => {
           <footer>
             <div className="footer-logo">Come Alive Studio</div>
             <div className="footer-links">
-              {['Library','Booking','Contact'].map(l => (
+              {['Library','Tools','Booking','Contact'].map(l => (
                 <a key={l} onClick={() => setPage(l.toLowerCase())}>{l}</a>
               ))}
 
@@ -1970,6 +2123,7 @@ useEffect(() => {
           saveProgress={saveProgress}
         />
       )}
+      {page==='tools'     && <ToolsPage />}
       {page==='booking'   && <Booking isPremium={isPremium} />}
       {page==='contact'   && <Contact />}
       {page==='dashboard' && (
