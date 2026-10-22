@@ -9,8 +9,8 @@ const supabase = createClient(
 )
 
 function getPlanFromAmount(amount) {
-  if (amount === 2900) return 'professional'
-  if (amount === 9700) return 'mastery'
+  if (amount === 2900) return 'founding'   // 29 EUR per month
+  if (amount === 29000) return 'master'     // 290 EUR, 3 months
   return 'explorer'
 }
 
@@ -92,16 +92,19 @@ export default async function handler(req, res) {
         return res.status(500).json({ error: findError.message })
       }
 
-      const addons = session.metadata?.addons
-        ? session.metadata.addons.split(',')
-        : []
-      
       const payload = {
         email: normalizedEmail,
         plan,
         plan_status: 'active',
-        stripe_customer_id: stripeCustomerId
+        stripe_customer_id: stripeCustomerId,
         addons
+      }
+
+      // Master Planner is a one-time payment that gives 3 months of access
+      if (plan === 'master' && session.mode === 'payment') {
+        const end = new Date()
+        end.setMonth(end.getMonth() + 3)
+        payload.plan_expires_at = end.toISOString()
       }
 
       let updateError = null
