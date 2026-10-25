@@ -94,7 +94,7 @@ export function welcomeEmail({ name = '', newsletter = false } = {}) {
     p('Your free Explorer account is ready. There is no password to remember: whenever you want to sign in, we send you a one-time link.') +
     callout(
       'Where to start',
-      `· Free episodes in all four tracks: Filmmaking, Mindset, Relationships, Coaching<br />
+      `· Free episodes in all four tracks: Filmmaking, Mindset, Relationships, Growth<br />
 · Interactive tools from <em>Your Master Relationship Manual</em><br />
 · A free 45 minute Discovery Session with Angelo`
     ) +
@@ -111,7 +111,7 @@ export function welcomeEmail({ name = '', newsletter = false } = {}) {
 Your free Explorer account is ready. There is no password to remember: whenever you want to sign in, we send you a one-time link.
 
 Where to start:
-- Free episodes in all four tracks: Filmmaking, Mindset, Relationships, Coaching
+- Free episodes in all four tracks: Filmmaking, Mindset, Relationships, Growth
 - Interactive tools from Your Master Relationship Manual
 - A free 45 minute Discovery Session with Angelo
 
