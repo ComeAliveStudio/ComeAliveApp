@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import * as React from "react";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { ExercisesPage, ExercisesList } from './Exercises.jsx'
 import ComeAliveChat from "./components/ComeAliveChat";
 
 const SUPABASE_URL  = import.meta.env.VITE_SUPABASE_URL
@@ -560,7 +561,7 @@ function NavBar({ setPage, user, onSignIn, onSignOut }) {
     <nav>
       <span className="nav-logo" onClick={() => setPage('home')}>Come Alive Studio</span>
      <ul className="nav-links">
-  {['Library','Tools','Booking','Contact'].map(p => (
+  {['Library','Tools','Exercises','Booking','Contact'].map(p => (
     <li key={p}>
       <a onClick={() => setPage(p.toLowerCase())}>{p}</a>
     </li>
@@ -1162,7 +1163,7 @@ function ToolsList() {
   )
 }
 
-function ToolsPage() {
+function ToolsPage({ setPage }) {
   return (
     <div style={{background:'#4f889f', paddingTop:'6rem', minHeight:'100vh'}}>
       <div className="max-w" style={{padding:'4rem 3rem'}}>
@@ -1172,6 +1173,9 @@ function ToolsPage() {
           Short guided tools from the books Stop Thinking Negative, Your Relationship Guide to Happiness and Coach Yourself to Mastery. Free to use, no account needed.
         </p>
         <ToolsList />
+        <p style={{color:'rgba(246,243,240,0.9)', marginTop:'2rem', fontSize:'0.9rem'}}>
+          Want the guided exercises from the books? <a onClick={() => setPage('exercises')} style={{color:'#f6f3f0', textDecoration:'underline', cursor:'pointer'}}>Open the Book Exercises</a> (free with an account).
+        </p>
       </div>
     </div>
   )
@@ -1580,6 +1584,7 @@ function Dashboard({
     { id:'overview', label:'Overview', icon:'◈' },
     { id:'courses', label:'My Courses', icon:'▤' },
     { id:'tools', label:'Tools', icon:'✦' },
+    { id:'exercises', label:'Exercises', icon:'✎' },
     { id:'downloads', label:'Downloads', icon:'⇩' },
     { id:'billing', label:'Billing', icon:'◧' },
     { id:'sessions', label:'Sessions', icon:'◷' },
@@ -1848,6 +1853,13 @@ function Dashboard({
             </>
           )}
 
+          {activeSection==='exercises' && (
+            <>
+              <div className="section-label">Book Exercises</div>
+              <ExercisesList />
+            </>
+          )}
+
           {activeSection==='downloads' && (
             <DownloadsSection plan={plan} />
           )}
@@ -2046,7 +2058,7 @@ useEffect(() => {
   const params = new URLSearchParams(window.location.search)
   const pageParam = params.get('page')
 
-  if (pageParam && ['home','library','tools','booking','contact','dashboard'].includes(pageParam)) {
+  if (pageParam && ['home','library','tools','exercises','booking','contact','dashboard'].includes(pageParam)) {
   setPage(pageParam)
   window.history.replaceState({}, '', window.location.pathname)
   }
@@ -2161,7 +2173,8 @@ useEffect(() => {
           saveProgress={saveProgress}
         />
       )}
-      {page==='tools'     && <ToolsPage />}
+      {page==='tools'     && <ToolsPage setPage={setPage} />}
+      {page==='exercises' && <ExercisesPage user={user} onSignIn={() => setShowAuth(true)} />}
       {page==='booking'   && <Booking isPremium={isPremium} />}
       {page==='contact'   && <Contact />}
       {page==='dashboard' && (
