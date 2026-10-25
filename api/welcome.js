@@ -5,7 +5,7 @@
  * For a NEW account (created in the last 3 days) it:
  *   1. makes sure there is a row in `members` (free "explorer" plan)
  *   2. sends the welcome email through Resend, once
- *   3. adds the person to the Mailchimp audience, only if they ticked the newsletter box
+ *   3. adds the person to the Resend newsletter contacts, only if they ticked the newsletter box
  *
  * Why after sign-in and not at sign-up: the email address is confirmed by then,
  * so nobody can make us send emails to an address that is not theirs.
@@ -14,11 +14,9 @@
  *   SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY   already used by the Stripe webhook
  *   RESEND_API_KEY                            Resend, domain comealive.vision
  *   EMAIL_FROM                                optional, default "Come Alive Studio <noreply@comealive.vision>"
- *   MAILCHIMP_API_KEY                         optional, e.g. xxxxxxxx-us13
- *   MAILCHIMP_AUDIENCE_ID                     optional, the audience (list) id
+ *   RESEND_SEGMENT_ID                         optional, the Resend segment "Come Alive Newsletter"
  */
 import { createClient } from '@supabase/supabase-js'
-import { createHash } from 'node:crypto'
 import { welcomeEmail, SUPPORT } from './_lib/emailTemplates.js'
 
 const NEW_ACCOUNT_DAYS = 3
@@ -44,30 +42,33 @@ async function sendWelcome(to, name, newsletter) {
   if (!r.ok) throw new Error(`Resend ${r.status}: ${await r.text()}`)
 }
 
-async function addToMailchimp(email, name) {
-  const key = process.env.MAILCHIMP_API_KEY
-  const list = process.env.MAILCHIMP_AUDIENCE_ID
-  if (!key || !list) return false
-  const dc = key.split('-')[1]
-  if (!dc) return false
-  const hash = createHash('md5').update(email).digest('hex')
+// Same approach as FilmJourney: Resend contacts, optionally inside a segment.
+// A person who unsubscribed earlier is never subscribed again.
+async function addToNewsletter(email, name) {
+  const key = process.env.RESEND_API_KEY
+  if (!key) return false
+  const headers = { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' }
+
+  const existing = await fetch(`https://api.resend.com/contacts/${encodeURIComponent(email)}`, { headers })
+  if (existing.ok) {
+    const contact = await existing.json()
+    if (contact?.unsubscribed) return false
+  }
+
   const first = String(name || '').trim().split(/\s+/)[0]
-  const r = await fetch(`https://${dc}.api.mailchimp.com/3.0/lists/${list}/members/${hash}`, {
-    method: 'PUT',
-    headers: {
-      Authorization: `Basic ${Buffer.from(`anystring:${key}`).toString('base64')}`,
-      'Content-Type': 'application/json',
-    },
+  const segmentId = process.env.RESEND_SEGMENT_ID
+  const r = await fetch('https://api.resend.com/contacts', {
+    method: 'POST',
+    headers,
     body: JSON.stringify({
-      email_address: email,
-      // status_if_new: a person who unsubscribed earlier is never subscribed again
-      status_if_new: 'subscribed',
-      merge_fields: first ? { FNAME: first } : {},
-      tags: ['app-signup'],
+      email,
+      ...(first ? { first_name: first } : {}),
+      unsubscribed: false,
+      ...(segmentId ? { segments: [{ id: segmentId }] } : {}),
     }),
   })
-  if (!r.ok) throw new Error(`Mailchimp ${r.status}: ${await r.text()}`)
-  return true
+  if (r.ok || r.status === 409) return true // 409: already a contact
+  throw new Error(`Resend contacts ${r.status}: ${await r.text()}`)
 }
 
 export default async function handler(req, res) {
@@ -132,9 +133,9 @@ export default async function handler(req, res) {
     let subscribed = false
     if (newsletter) {
       try {
-        subscribed = await addToMailchimp(email, name)
+        subscribed = await addToNewsletter(email, name)
       } catch (err) {
-        console.error('Mailchimp error:', err.message)
+        console.error('Newsletter error:', err.message)
       }
     }
 
