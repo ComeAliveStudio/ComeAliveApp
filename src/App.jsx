@@ -1074,6 +1074,11 @@ function Library({ user, isPremium, setPage, progressMap, saveProgress }) {
 
 // ── TOOLS ─────────────────────────────────────────────────────────────────────
 // Static pages in /public, each one is a companion tool of "Your Master Relationship Manual"
+const BOOK_LINKS = {
+  "Stop Thinking Negative": "https://www.amazon.de/STOP-THINKING-NEGATIVE-CHANGING-PERSPECTIVE/dp/B0DYZLT6VW",
+  "Coach Yourself to Mastery": "https://www.amazon.de/Coach-Yourself-Mastery-Journey-Confidence/dp/B0F8QJNF2Y",
+}
+
 const TOOLS = [
   {
     title: "Relationship Clarity Checklist",
@@ -1135,7 +1140,12 @@ function ToolsList() {
             <div style={{fontFamily:'Cormorant Garamond', fontSize:'1.4rem', color:'var(--gold)', marginBottom:'0.35rem'}}>
               {t.title}
             </div>
-            <div style={{color:'var(--azure-text)', fontSize:'0.72rem', letterSpacing:'0.08em', textTransform:'uppercase', marginBottom:'0.35rem'}}>From {t.book}</div>
+            <div style={{color:'var(--azure-text)', fontSize:'0.72rem', letterSpacing:'0.08em', textTransform:'uppercase', marginBottom:'0.35rem'}}>
+              From {t.book}
+              {BOOK_LINKS[t.book] && (
+                <> · <a href={BOOK_LINKS[t.book]} target="_blank" rel="noopener noreferrer" style={{color:'var(--gold)', textDecoration:'underline'}}>Get the book on Amazon</a></>
+              )}
+            </div>
             <div style={{color:'var(--card-text)', fontSize:'0.88rem'}}>{t.desc}</div>
           </div>
           <a
