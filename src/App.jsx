@@ -242,7 +242,7 @@ const courses = {
     { id:13, title:"The 4 Gates Model",                  duration:"26 min", free:false, desc:"A practical framework for choosing your next partner." },
     { id:14, title:"The 90-Day Reset Plan",              duration:"20 min", free:false, desc:"Structured recovery from toxic relational patterns." },
   ],
-  "Coaching": [
+  "Growth": [
     { id:15, title:"Coach Yourself to Mastery",          duration:"23 min", free:true,  desc:"The self-coaching toolkit for lasting confidence." },
     { id:16, title:"Building Unshakeable Confidence",    duration:"18 min", free:false, desc:"Action loops and the science of self-belief." },
     { id:17, title:"Boundaries Without Guilt",           duration:"20 min", free:false, desc:"Why saying no is an act of self-respect." },
@@ -777,7 +777,7 @@ const CONCIERGE_CHIPS = [
   {
     label: "Tell me about your one-on-one program",
     subject: "Come Alive Studio : One-on-One Programme",
-    body: "Hello,\n\nI am interested in your one-on-one coaching or mentoring programme.\n\nMy area of interest (filmmaking / mindset / relationships / coaching):\n\nA brief note about where I am right now:\n\nBest availability for an introductory call:\n\nLooking forward to connecting.\n\nBest regards,",
+    body: "Hello,\n\nI am interested in your one-on-one coaching or mentoring programme.\n\nMy area of interest (filmmaking / mindset / relationships / growth):\n\nA brief note about where I am right now:\n\nBest availability for an introductory call:\n\nLooking forward to connecting.\n\nBest regards,",
   },
   {
     label: "I am looking for a film team / live streaming",
@@ -1257,7 +1257,7 @@ const QUICK_ENQUIRIES = [
   {
     label: "Introductory session",
     subject: "Introductory Coaching Session",
-    body: "Hello,\n\nI would like to book a free introductory session with Come Alive Studio.\n\nArea of interest (filmmaking / mindset / relationships / coaching):\n\nA brief note about where I am right now:\n\nBest availability:\n\nLooking forward to connecting.\n\nBest regards,",
+    body: "Hello,\n\nI would like to book a free introductory session with Come Alive Studio.\n\nArea of interest (filmmaking / mindset / relationships / growth):\n\nA brief note about where I am right now:\n\nBest availability:\n\nLooking forward to connecting.\n\nBest regards,",
   },
 ]
 
