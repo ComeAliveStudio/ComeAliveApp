@@ -49,14 +49,29 @@ async function addToNewsletter(email, name) {
   if (!key) return false
   const headers = { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' }
 
+  const segmentId = process.env.RESEND_SEGMENT_ID
+
   const existing = await fetch(`https://api.resend.com/contacts/${encodeURIComponent(email)}`, { headers })
   if (existing.ok) {
     const contact = await existing.json()
-    if (contact?.unsubscribed) return false
+    if (contact?.unsubscribed) {
+      console.log('Newsletter: contact unsubscribed earlier, not added again')
+      return false
+    }
+    // Contacts are shared by every project in the Resend account (Riga Brothers, FilmJourney...).
+    // An existing contact only has to be added to this project's segment.
+    if (segmentId) {
+      const seg = await fetch(
+        `https://api.resend.com/contacts/${encodeURIComponent(email)}/segments/${segmentId}`,
+        { method: 'POST', headers }
+      )
+      if (!seg.ok) throw new Error(`Resend segment ${seg.status}: ${await seg.text()}`)
+    }
+    console.log('Newsletter: existing contact added to the segment')
+    return true
   }
 
   const first = String(name || '').trim().split(/\s+/)[0]
-  const segmentId = process.env.RESEND_SEGMENT_ID
   const r = await fetch('https://api.resend.com/contacts', {
     method: 'POST',
     headers,
@@ -67,7 +82,11 @@ async function addToNewsletter(email, name) {
       ...(segmentId ? { segments: [{ id: segmentId }] } : {}),
     }),
   })
-  if (r.ok || r.status === 409) return true // 409: already a contact
+  if (r.ok) {
+    console.log('Newsletter: new contact created')
+    return true
+  }
+  if (r.status === 409) return true // created by another request in the meantime
   throw new Error(`Resend contacts ${r.status}: ${await r.text()}`)
 }
 
@@ -109,6 +128,7 @@ export default async function handler(req, res) {
     // Already welcomed, or an older account (e.g. a paying member): nothing to send.
     const ageDays = (Date.now() - new Date(user.created_at).getTime()) / 86400000
     if (member.welcome_sent_at || ageDays > NEW_ACCOUNT_DAYS) {
+      console.log(`Welcome skipped: ${member.welcome_sent_at ? 'already sent' : 'account older than ' + NEW_ACCOUNT_DAYS + ' days'}`)
       return res.status(200).json({ ok: true, welcomed: false })
     }
 
@@ -133,6 +153,7 @@ export default async function handler(req, res) {
     let subscribed = false
     if (newsletter) {
       try {
+        if (!process.env.RESEND_SEGMENT_ID) console.log('Newsletter: RESEND_SEGMENT_ID is not set, contact will not be in a segment')
         subscribed = await addToNewsletter(email, name)
       } catch (err) {
         console.error('Newsletter error:', err.message)
