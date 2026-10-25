@@ -1077,13 +1077,39 @@ function Library({ user, isPremium, setPage, progressMap, saveProgress }) {
 const TOOLS = [
   {
     title: "Relationship Clarity Checklist",
+    book: "Your Master Relationship Manual",
     desc: "Check what you observe and what you feel. Let the numbers tell you what your heart already knows.",
     href: "/clarity-tool/",
   },
   {
     title: "Relationship Phases Framework",
+    book: "Your Master Relationship Manual",
     desc: "Allow reality to emerge before attachment takes over. Find out which phase you are in.",
     href: "/relationship-phases/",
+  },
+  {
+    title: "Overthinking Score",
+    book: "Stop Thinking Negative",
+    desc: "Twelve honest statements. See how much overthinking costs you and which pattern drives it.",
+    href: "/overthinking-score/",
+  },
+  {
+    title: "Thought Reframer",
+    book: "Stop Thinking Negative",
+    desc: "Turn one heavy thought into a balanced one in five minutes. Print it or keep it.",
+    href: "/thought-reframer/",
+  },
+  {
+    title: "Procrastination Breaker",
+    book: "Coach Yourself to Mastery",
+    desc: "Find out why you avoid the task and get a 10-minute start that fits your reason.",
+    href: "/procrastination-breaker/",
+  },
+  {
+    title: "30-Day Action Planner",
+    book: "Coach Yourself to Mastery",
+    desc: "Turn one wish into a simple four-week plan with a first action you can do today.",
+    href: "/action-planner/",
   },
 ]
 
@@ -1109,6 +1135,7 @@ function ToolsList() {
             <div style={{fontFamily:'Cormorant Garamond', fontSize:'1.4rem', color:'var(--gold)', marginBottom:'0.35rem'}}>
               {t.title}
             </div>
+            <div style={{color:'var(--azure-text)', fontSize:'0.72rem', letterSpacing:'0.08em', textTransform:'uppercase', marginBottom:'0.35rem'}}>From {t.book}</div>
             <div style={{color:'var(--card-text)', fontSize:'0.88rem'}}>{t.desc}</div>
           </div>
           <a
@@ -1131,7 +1158,7 @@ function ToolsPage() {
         <div className="section-label">Free Tools</div>
         <h2>Interactive tools <em>from the book</em></h2>
         <p style={{color:'rgba(246,243,240,0.85)', marginBottom:'2.5rem', fontSize:'0.9rem', maxWidth:520}}>
-          Short guided tools from Your Master Relationship Manual. Free to use, no account needed.
+          Short guided tools from the books Stop Thinking Negative, Your Master Relationship Manual and Coach Yourself to Mastery. Free to use, no account needed.
         </p>
         <ToolsList />
       </div>

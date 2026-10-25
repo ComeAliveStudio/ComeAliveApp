@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thought Reframer · Stop Thinking Negative</title>
+<meta name="description" content="Take one thought that weighs on you and turn it into a balanced one, in five minutes.">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#4f889f;--gold:#005575;--slate:#dbe8eb;--mist:#4f889f;--border:rgba(215,229,232,0.85);--card-text:#1d1d1b;--nav-bg:rgba(0,63,90,0.96);--alt-bg:#3a7490;--parchment:#f0ece4;--deep-teal:#003f5a;--soft:rgba(219,232,235,0.78)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--deep-teal);font-family:'DM Sans',sans-serif;color:var(--parchment);min-height:100vh;line-height:1.6}
+.screen{display:none}.screen.active{display:block}
+header{background:var(--nav-bg);padding:52px 24px 44px;text-align:center;position:relative;overflow:hidden;border-bottom:1px solid rgba(215,229,232,0.2)}
+header::before{content:'';position:absolute;top:-80px;left:-80px;width:260px;height:260px;border-radius:50%;background:rgba(79,136,159,0.12)}
+header::after{content:'';position:absolute;bottom:-50px;right:-50px;width:200px;height:200px;border-radius:50%;background:rgba(0,85,117,0.15)}
+.header-tag{font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--slate);margin-bottom:14px;position:relative}
+header h1{font-family:'Cormorant Garamond',serif;font-size:clamp(26px,5vw,46px);font-weight:300;line-height:1.2;color:var(--parchment);margin-bottom:10px;position:relative}
+header h1 em{font-style:italic;color:var(--slate)}
+.header-book{font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic;color:rgba(240,236,228,0.75);margin-top:6px;position:relative}
+.header-author{margin-top:18px;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(240,236,228,0.6);position:relative}
+main{max-width:720px;margin:0 auto;padding:40px 20px 80px}
+.intro{text-align:center;margin-bottom:32px}
+.intro p{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:300;font-style:italic;color:var(--slate);line-height:1.75}
+.card{border:1px solid var(--border);border-radius:12px;background:rgba(0,63,90,0.55);padding:22px 22px 20px;margin-bottom:14px}
+.q-text{font-size:15px;color:var(--parchment);margin-bottom:14px}
+.q-num{font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--slate);margin-bottom:6px}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opt{flex:1 1 140px;padding:10px 12px;border:1px solid rgba(215,229,232,0.45);border-radius:8px;background:transparent;color:var(--parchment);font-family:inherit;font-size:13px;cursor:pointer;text-align:center;transition:all .15s}
+.opt:hover{border-color:var(--parchment);background:rgba(255,255,255,0.08)}
+.opt.sel{background:var(--slate);color:var(--gold);border-color:var(--slate);font-weight:500}
+.opts.stack .opt{flex:1 1 100%;text-align:left}
+.opt:focus-visible,.btn:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--parchment);outline-offset:2px}
+.progress{height:4px;background:rgba(215,229,232,0.2);border-radius:2px;margin:0 0 24px;overflow:hidden}
+.progress>i{display:block;height:100%;width:0;background:var(--slate);transition:width .3s}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:22px}
+.btn{padding:13px 26px;border-radius:8px;border:1px solid var(--slate);background:var(--slate);color:var(--gold);font-family:inherit;font-size:13px;font-weight:500;letter-spacing:0.08em;cursor:pointer;text-decoration:none;display:inline-block}
+.btn:hover{background:#fff}
+.btn.ghost{background:transparent;color:var(--parchment);border-color:rgba(215,229,232,0.5)}
+.btn.ghost:hover{background:rgba(255,255,255,0.1)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.field{margin-bottom:16px}
+.field label{display:block;font-size:13px;color:var(--parchment);margin-bottom:6px}
+.field .hint{font-size:12px;color:var(--soft);margin-bottom:6px}
+input[type=text],input[type=email],textarea{width:100%;padding:12px 14px;border-radius:8px;border:1px solid rgba(215,229,232,0.45);background:rgba(0,40,58,0.6);color:var(--parchment);font-family:inherit;font-size:14px}
+textarea{min-height:84px;resize:vertical}
+input::placeholder,textarea::placeholder{color:rgba(240,236,228,0.5)}
+input[type=range]{width:100%;accent-color:#dbe8eb}
+.range-val{font-size:13px;color:var(--slate);text-align:right}
+.step-title{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--parchment);margin-bottom:4px}
+.step-sub{font-size:12px;color:var(--soft);margin-bottom:14px}
+.result-head{text-align:center;margin-bottom:26px}
+.tier-label{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--slate);margin-bottom:8px}
+.result-head h2{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,5vw,40px);font-weight:300;color:var(--parchment);line-height:1.2;margin-bottom:8px}
+.result-head p{font-size:14px;color:var(--soft);max-width:520px;margin:0 auto}
+.block h3{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;color:var(--parchment);margin-bottom:8px}
+.block p,.block li{font-size:14px;color:rgba(240,236,228,0.92)}
+.block ul{padding-left:18px}
+.bar-row{margin-bottom:12px}
+.bar-top{display:flex;justify-content:space-between;font-size:12px;color:var(--soft);margin-bottom:4px}
+.bar{height:8px;border-radius:4px;background:rgba(215,229,232,0.2);overflow:hidden}
+.bar>i{display:block;height:100%;background:var(--slate)}
+.plan-card{border:1px solid var(--border);border-radius:12px;background:rgba(0,63,90,0.55);padding:26px;margin-bottom:16px}
+.plan-card h3{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:400;color:var(--parchment);margin-bottom:12px}
+.plan-card .row{margin-bottom:14px}
+.plan-card .k{font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--slate);margin-bottom:3px}
+.plan-card .v{font-size:14px;color:var(--parchment);white-space:pre-wrap}
+.capture{text-align:center;border:1px solid var(--border);border-radius:12px;background:rgba(0,63,90,0.55);padding:28px 22px;margin:30px 0 16px;position:relative}
+.capture h3{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:400;color:var(--parchment);margin-bottom:6px}
+.capture p{font-size:13px;color:var(--soft);margin-bottom:16px}
+.capture-form{display:flex;gap:8px;max-width:440px;margin:0 auto}
+@media(max-width:520px){.capture-form{flex-direction:column}}
+.consent{display:flex;gap:8px;align-items:flex-start;text-align:left;max-width:440px;margin:14px auto 0;font-size:12px;color:var(--soft);cursor:pointer}
+.consent input{margin-top:3px;accent-color:#dbe8eb}
+.capture-msg{margin-top:12px;font-size:13px;min-height:18px}
+.capture-msg.ok{color:#9ad9b8}.capture-msg.err{color:#ffb3a7}
+.book-box{text-align:center;border:1px solid var(--border);border-radius:12px;background:var(--alt-bg);padding:26px 22px;margin-bottom:16px}
+.book-label{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--slate);margin-bottom:6px}
+.book-title{font-family:'Cormorant Garamond',serif;font-size:26px;color:var(--parchment);margin-bottom:6px}
+.book-box p{font-size:13px;color:rgba(240,236,228,0.9);margin-bottom:14px}
+.note{font-size:12px;color:var(--soft);text-align:center;margin-top:10px}
+footer{padding:28px 20px;text-align:center;font-size:12px;color:rgba(240,236,228,0.7);border-top:1px solid rgba(215,229,232,0.2)}
+footer a{color:var(--slate);text-decoration:none}
+@media print{
+  body{background:#fff;color:#000}
+  header,footer,.no-print{display:none !important}
+  main{padding:0}
+  .plan-card{background:#fff;border:1px solid #888}
+  .plan-card h3,.plan-card .v{color:#000}.plan-card .k{color:#444}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="header-tag">Interactive Companion Tool</div>
+  <h1>The <em>Thought</em> Reframer</h1>
+  <div class="header-book">Stop Thinking Negative</div>
+  <div class="header-author">Angelo D'Agostino</div>
+</header>
+
+<div id="form" class="screen active"><main>
+  <div class="intro"><p>Take one thought that weighs on you.<br>Not a positive version. An accurate one.</p></div>
+  <div class="card">
+    <div class="step-title">1 · The situation</div><div class="step-sub">Only the facts, like a camera would record them.</div>
+    <div class="field"><label for="f-sit">What happened?</label><textarea id="f-sit" placeholder="e.g. My manager did not answer my message for two days."></textarea></div>
+  </div>
+  <div class="card">
+    <div class="step-title">2 · The thought</div><div class="step-sub">Write it exactly as your mind says it.</div>
+    <div class="field"><label for="f-th">What is the thought?</label><textarea id="f-th" placeholder="e.g. They are unhappy with me and I will lose the project."></textarea></div>
+    <div class="field"><label for="f-b1">How much do you believe it right now?</label><input type="range" id="f-b1" min="0" max="100" value="70" oninput="rv('b1')"><div class="range-val" id="v-b1">70%</div></div>
+  </div>
+  <div class="card">
+    <div class="step-title">3 · The evidence</div><div class="step-sub">Be fair: a good lawyer looks at both sides.</div>
+    <div class="field"><label for="f-for">What supports the thought?</label><textarea id="f-for"></textarea></div>
+    <div class="field"><label for="f-against">What speaks against it, or what else could explain it?</label><textarea id="f-against"></textarea></div>
+  </div>
+  <div class="card">
+    <div class="step-title">4 · A balanced thought</div><div class="step-sub">Try: "Maybe ..., and ..." It should feel believable, not forced.</div>
+    <div class="field"><label for="f-bal">My balanced thought</label><textarea id="f-bal"></textarea></div>
+    <div class="field"><label for="f-b2">How much do you believe the original thought now?</label><input type="range" id="f-b2" min="0" max="100" value="40" oninput="rv('b2')"><div class="range-val" id="v-b2">40%</div></div>
+    <div class="field"><label for="f-act">One small action I can take</label><input type="text" id="f-act" placeholder="e.g. Send a short, friendly follow-up tomorrow morning."></div>
+  </div>
+  <div class="btn-row"><button class="btn" onclick="build()">Build my card</button></div>
+  <p class="note" id="err"></p>
+</main><footer>From <em>Stop Thinking Negative</em> by <a href="https://app.comealive.vision">Angelo D'Agostino</a> · <a href="https://app.comealive.vision/?page=tools">All tools</a></footer></div>
+
+<div id="card" class="screen"><main>
+  <div class="result-head"><div class="tier-label">Your reframing card</div><h2>One thought, seen clearly</h2><p>Keep it, print it or read it again when the thought returns.</p></div>
+  <div class="plan-card" id="plan"></div>
+  <div class="btn-row no-print">
+    <button class="btn" id="b-copy" onclick="copyText(textOf(),this)">Copy text</button>
+    <button class="btn ghost" onclick="window.print()">Print or save as PDF</button>
+    <button class="btn ghost" onclick="downloadText('thought-reframer.txt',textOf())">Download .txt</button>
+  </div>
+  
+  <div class="capture no-print">
+    <h3>Get your guide by email</h3>
+    <p>A short guide with your next steps, free from Angelo D'Agostino.</p>
+    <div class="capture-form">
+      <input type="email" id="email-input" placeholder="your@email.com" autocomplete="email" aria-label="Your email">
+      <button class="btn" id="send-btn" onclick="sendGuide()">Email me the guide</button>
+    </div>
+    <input type="text" id="hp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+    <label class="consent"><input type="checkbox" id="consent"><span>Also send me the Come Alive newsletter: new tools, courses and ideas, a few emails a month. I can unsubscribe at any time.</span></label>
+    <div class="capture-msg" id="capture-msg" role="status"></div>
+  </div>
+  
+  <div class="book-box no-print">
+    <div class="book-label">From the book</div>
+    <div class="book-title">Stop Thinking Negative</div>
+    <p>The full method to notice, question and rewire negative thoughts.</p>
+    <a id="book-link" class="btn" href="https://app.comealive.vision" style="margin-right:6px">Explore coaching with Angelo</a>
+  </div>
+
+  <div class="btn-row no-print"><button class="btn ghost" onclick="show('form')">Edit the card</button><button class="btn ghost" onclick="reset()">Start another</button></div>
+</main><footer>From <em>Stop Thinking Negative</em> by <a href="https://app.comealive.vision">Angelo D'Agostino</a> · <a href="https://app.comealive.vision/?page=tools">All tools</a></footer></div>
+<script>
+var TOOL_ID = "thought-reframer";
+var BOOK = "Stop Thinking Negative";
+var AMAZON_URL = "";
+var RESULT_KEY = "";
+function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c];});}
+function show(screen){var all=document.querySelectorAll(".screen");for(var i=0;i<all.length;i++){all[i].classList.remove("active");}document.getElementById(screen).classList.add("active");window.scrollTo(0,0);}
+function say(t,err){var m=document.getElementById("capture-msg");if(!m)return;m.textContent=t;m.className="capture-msg "+(err?"err":"ok");}
+function sendGuide(){
+  var btn=document.getElementById("send-btn");
+  var email=document.getElementById("email-input").value.trim();
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){say("Please enter a valid email address.",true);return;}
+  btn.disabled=true;btn.textContent="Sending...";
+  fetch("/api/tool-lead",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({tool:TOOL_ID,email:email,result:RESULT_KEY,consent:document.getElementById("consent").checked,website:document.getElementById("hp").value})})
+  .then(function(r){return r.json().catch(function(){return {};}).then(function(d){return {ok:r.ok,d:d};});})
+  .then(function(x){
+    if(x.ok){document.querySelector(".capture-form").style.display="none";say("Sent. Check your inbox, and your spam folder.",false);}
+    else{btn.disabled=false;btn.textContent="Email me the guide";say(x.d.error||"Something went wrong. Please try again.",true);}
+  })
+  .catch(function(){btn.disabled=false;btn.textContent="Email me the guide";say("Something went wrong. Please try again.",true);});
+}
+(function(){var l=document.getElementById("book-link");if(l&&AMAZON_URL){l.href=AMAZON_URL;l.target="_blank";l.rel="noopener";l.textContent="Get the book on Amazon";}})();
+function downloadText(name,text){var a=document.createElement("a");a.href=URL.createObjectURL(new Blob([text],{type:"text/plain"}));a.download=name;document.body.appendChild(a);a.click();document.body.removeChild(a);}
+function copyText(text,btn){
+  var done=function(){if(btn){var o=btn.textContent;btn.textContent="Copied";setTimeout(function(){btn.textContent=o;},1500);}};
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(done,function(){});}
+}
+
+var FIELDS=[["Situation","f-sit"],["Thought","f-th"],["Evidence for","f-for"],["Evidence against","f-against"],["Balanced thought","f-bal"],["Small action","f-act"]];
+function rv(k){document.getElementById("v-"+k).textContent=document.getElementById("f-"+k).value+"%";}
+function val(id){return document.getElementById(id).value.trim();}
+function textOf(){
+  var t="THOUGHT REFRAMER\n\n";
+  for(var i=0;i<FIELDS.length;i++){if(val(FIELDS[i][1]))t+=FIELDS[i][0].toUpperCase()+": "+val(FIELDS[i][1])+"\n\n";}
+  t+="BELIEF IN THE ORIGINAL THOUGHT: "+val("f-b1")+"% before, "+val("f-b2")+"% after\n";
+  return t;
+}
+function build(){
+  if(!val("f-th")||!val("f-bal")){document.getElementById("err").textContent="Please fill in at least the thought and the balanced thought.";return;}
+  document.getElementById("err").textContent="";
+  var h="<h3>My reframing card</h3>";
+  for(var i=0;i<FIELDS.length;i++){if(val(FIELDS[i][1]))h+='<div class="row"><div class="k">'+FIELDS[i][0]+'</div><div class="v">'+esc(val(FIELDS[i][1]))+'</div></div>';}
+  h+='<div class="row"><div class="k">Belief in the original thought</div><div class="v">'+esc(val("f-b1"))+'% before  ·  '+esc(val("f-b2"))+'% after</div></div>';
+  document.getElementById("plan").innerHTML=h;
+  show("card");
+}
+function reset(){var ids=["f-sit","f-th","f-for","f-against","f-bal","f-act"];for(var i=0;i<ids.length;i++){document.getElementById(ids[i]).value="";}document.getElementById("f-b1").value=70;document.getElementById("f-b2").value=40;rv("b1");rv("b2");show("form");}
+
+</script>
+</body>
+</html>
