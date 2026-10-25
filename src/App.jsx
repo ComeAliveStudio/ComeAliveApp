@@ -697,7 +697,7 @@ function Tiers({ setPage }) {
             <div className="tier-desc">Three months, one session a month. About €97 a month. Renew when you are ready.</div>
             <ul className="tier-features">
               <li>Everything in Founding Member</li>
-              <li>3 private coaching sessions (45 min), one a month</li>
+              <li>3 private coaching sessions (45 min)</li>
               <li>Direct messaging access</li>
               <li>Custom growth roadmap</li>
               <li>Privileged access to new courses</li>
@@ -1073,8 +1073,9 @@ function Library({ user, isPremium, setPage, progressMap, saveProgress }) {
 }
 
 // ── TOOLS ─────────────────────────────────────────────────────────────────────
-// Static pages in /public, each one is a companion tool of "Your Master Relationship Manual"
+// Static pages in /public, each one is a companion tool of "Your Relationship Guide to Happiness"
 const BOOK_LINKS = {
+  "Your Relationship Guide to Happiness": "https://www.amazon.de/Your-Relationship-Guide-Happiness-Post-Narcissistic/dp/B0F2MQH6FQ",
   "Stop Thinking Negative": "https://www.amazon.de/STOP-THINKING-NEGATIVE-CHANGING-PERSPECTIVE/dp/B0DYZLT6VW",
   "Coach Yourself to Mastery": "https://www.amazon.de/Coach-Yourself-Mastery-Journey-Confidence/dp/B0F8QJNF2Y",
 }
@@ -1082,13 +1083,13 @@ const BOOK_LINKS = {
 const TOOLS = [
   {
     title: "Relationship Clarity Checklist",
-    book: "Your Master Relationship Manual",
+    book: "Your Relationship Guide to Happiness",
     desc: "Check what you observe and what you feel. Let the numbers tell you what your heart already knows.",
     href: "/clarity-tool/",
   },
   {
     title: "Relationship Phases Framework",
-    book: "Your Master Relationship Manual",
+    book: "Your Relationship Guide to Happiness",
     desc: "Allow reality to emerge before attachment takes over. Find out which phase you are in.",
     href: "/relationship-phases/",
   },
@@ -1168,7 +1169,7 @@ function ToolsPage() {
         <div className="section-label">Free Tools</div>
         <h2>Interactive tools <em>from the book</em></h2>
         <p style={{color:'rgba(246,243,240,0.85)', marginBottom:'2.5rem', fontSize:'0.9rem', maxWidth:520}}>
-          Short guided tools from the books Stop Thinking Negative, Your Master Relationship Manual and Coach Yourself to Mastery. Free to use, no account needed.
+          Short guided tools from the books Stop Thinking Negative, Your Relationship Guide to Happiness and Coach Yourself to Mastery. Free to use, no account needed.
         </p>
         <ToolsList />
       </div>

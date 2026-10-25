@@ -95,7 +95,7 @@ export function welcomeEmail({ name = '', newsletter = false } = {}) {
     callout(
       'Where to start',
       `· Free episodes in all four tracks: Filmmaking, Mindset, Relationships, Growth<br />
-· Interactive tools from <em>Your Master Relationship Manual</em><br />
+· Interactive tools from <em>Your Relationship Guide to Happiness</em><br />
 · A free 45 minute Discovery Session with Angelo`
     ) +
     button(`${SITE}/?page=dashboard`, 'Open your dashboard') +
@@ -112,7 +112,7 @@ Your free Explorer account is ready. There is no password to remember: whenever 
 
 Where to start:
 - Free episodes in all four tracks: Filmmaking, Mindset, Relationships, Growth
-- Interactive tools from Your Master Relationship Manual
+- Interactive tools from Your Relationship Guide to Happiness
 - A free 45 minute Discovery Session with Angelo
 
 Open your dashboard: ${SITE}/?page=dashboard
@@ -135,7 +135,7 @@ const PLANS = {
   },
   master: {
     label: 'Master Planner',
-    perks: ['Everything in Founding Member', '3 private coaching sessions (45 min), one a month', 'Direct messaging access', 'Custom growth roadmap', 'Privileged access to new courses'],
+    perks: ['Everything in Founding Member', '3 private coaching sessions (45 min)', 'Direct messaging access', 'Custom growth roadmap', 'Privileged access to new courses'],
   },
 }
 
