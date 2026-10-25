@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Overthinking Score · Stop Thinking Negative</title>
+<meta name="description" content="Twelve honest statements. See how much overthinking costs you, and which pattern drives it.">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#4f889f;--gold:#005575;--slate:#dbe8eb;--mist:#4f889f;--border:rgba(215,229,232,0.85);--card-text:#1d1d1b;--nav-bg:rgba(0,63,90,0.96);--alt-bg:#3a7490;--parchment:#f0ece4;--deep-teal:#003f5a;--soft:rgba(219,232,235,0.78)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--deep-teal);font-family:'DM Sans',sans-serif;color:var(--parchment);min-height:100vh;line-height:1.6}
+.screen{display:none}.screen.active{display:block}
+header{background:var(--nav-bg);padding:52px 24px 44px;text-align:center;position:relative;overflow:hidden;border-bottom:1px solid rgba(215,229,232,0.2)}
+header::before{content:'';position:absolute;top:-80px;left:-80px;width:260px;height:260px;border-radius:50%;background:rgba(79,136,159,0.12)}
+header::after{content:'';position:absolute;bottom:-50px;right:-50px;width:200px;height:200px;border-radius:50%;background:rgba(0,85,117,0.15)}
+.header-tag{font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--slate);margin-bottom:14px;position:relative}
+header h1{font-family:'Cormorant Garamond',serif;font-size:clamp(26px,5vw,46px);font-weight:300;line-height:1.2;color:var(--parchment);margin-bottom:10px;position:relative}
+header h1 em{font-style:italic;color:var(--slate)}
+.header-book{font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic;color:rgba(240,236,228,0.75);margin-top:6px;position:relative}
+.header-author{margin-top:18px;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(240,236,228,0.6);position:relative}
+main{max-width:720px;margin:0 auto;padding:40px 20px 80px}
+.intro{text-align:center;margin-bottom:32px}
+.intro p{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:300;font-style:italic;color:var(--slate);line-height:1.75}
+.card{border:1px solid var(--border);border-radius:12px;background:rgba(0,63,90,0.55);padding:22px 22px 20px;margin-bottom:14px}
+.q-text{font-size:15px;color:var(--parchment);margin-bottom:14px}
+.q-num{font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--slate);margin-bottom:6px}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opt{flex:1 1 140px;padding:10px 12px;border:1px solid rgba(215,229,232,0.45);border-radius:8px;background:transparent;color:var(--parchment);font-family:inherit;font-size:13px;cursor:pointer;text-align:center;transition:all .15s}
+.opt:hover{border-color:var(--parchment);background:rgba(255,255,255,0.08)}
+.opt.sel{background:var(--slate);color:var(--gold);border-color:var(--slate);font-weight:500}
+.opts.stack .opt{flex:1 1 100%;text-align:left}
+.opt:focus-visible,.btn:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--parchment);outline-offset:2px}
+.progress{height:4px;background:rgba(215,229,232,0.2);border-radius:2px;margin:0 0 24px;overflow:hidden}
+.progress>i{display:block;height:100%;width:0;background:var(--slate);transition:width .3s}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:22px}
+.btn{padding:13px 26px;border-radius:8px;border:1px solid var(--slate);background:var(--slate);color:var(--gold);font-family:inherit;font-size:13px;font-weight:500;letter-spacing:0.08em;cursor:pointer;text-decoration:none;display:inline-block}
+.btn:hover{background:#fff}
+.btn.ghost{background:transparent;color:var(--parchment);border-color:rgba(215,229,232,0.5)}
+.btn.ghost:hover{background:rgba(255,255,255,0.1)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.field{margin-bottom:16px}
+.field label{display:block;font-size:13px;color:var(--parchment);margin-bottom:6px}
+.field .hint{font-size:12px;color:var(--soft);margin-bottom:6px}
+input[type=text],input[type=email],textarea{width:100%;padding:12px 14px;border-radius:8px;border:1px solid rgba(215,229,232,0.45);background:rgba(0,40,58,0.6);color:var(--parchment);font-family:inherit;font-size:14px}
+textarea{min-height:84px;resize:vertical}
+input::placeholder,textarea::placeholder{color:rgba(240,236,228,0.5)}
+input[type=range]{width:100%;accent-color:#dbe8eb}
+.range-val{font-size:13px;color:var(--slate);text-align:right}
+.step-title{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--parchment);margin-bottom:4px}
+.step-sub{font-size:12px;color:var(--soft);margin-bottom:14px}
+.result-head{text-align:center;margin-bottom:26px}
+.tier-label{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--slate);margin-bottom:8px}
+.result-head h2{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,5vw,40px);font-weight:300;color:var(--parchment);line-height:1.2;margin-bottom:8px}
+.result-head p{font-size:14px;color:var(--soft);max-width:520px;margin:0 auto}
+.block h3{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;color:var(--parchment);margin-bottom:8px}
+.block p,.block li{font-size:14px;color:rgba(240,236,228,0.92)}
+.block ul{padding-left:18px}
+.bar-row{margin-bottom:12px}
+.bar-top{display:flex;justify-content:space-between;font-size:12px;color:var(--soft);margin-bottom:4px}
+.bar{height:8px;border-radius:4px;background:rgba(215,229,232,0.2);overflow:hidden}
+.bar>i{display:block;height:100%;background:var(--slate)}
+.plan-card{border:1px solid var(--border);border-radius:12px;background:rgba(0,63,90,0.55);padding:26px;margin-bottom:16px}
+.plan-card h3{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:400;color:var(--parchment);margin-bottom:12px}
+.plan-card .row{margin-bottom:14px}
+.plan-card .k{font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--slate);margin-bottom:3px}
+.plan-card .v{font-size:14px;color:var(--parchment);white-space:pre-wrap}
+.capture{text-align:center;border:1px solid var(--border);border-radius:12px;background:rgba(0,63,90,0.55);padding:28px 22px;margin:30px 0 16px;position:relative}
+.capture h3{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:400;color:var(--parchment);margin-bottom:6px}
+.capture p{font-size:13px;color:var(--soft);margin-bottom:16px}
+.capture-form{display:flex;gap:8px;max-width:440px;margin:0 auto}
+@media(max-width:520px){.capture-form{flex-direction:column}}
+.consent{display:flex;gap:8px;align-items:flex-start;text-align:left;max-width:440px;margin:14px auto 0;font-size:12px;color:var(--soft);cursor:pointer}
+.consent input{margin-top:3px;accent-color:#dbe8eb}
+.capture-msg{margin-top:12px;font-size:13px;min-height:18px}
+.capture-msg.ok{color:#9ad9b8}.capture-msg.err{color:#ffb3a7}
+.book-box{text-align:center;border:1px solid var(--border);border-radius:12px;background:var(--alt-bg);padding:26px 22px;margin-bottom:16px}
+.book-label{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--slate);margin-bottom:6px}
+.book-title{font-family:'Cormorant Garamond',serif;font-size:26px;color:var(--parchment);margin-bottom:6px}
+.book-box p{font-size:13px;color:rgba(240,236,228,0.9);margin-bottom:14px}
+.note{font-size:12px;color:var(--soft);text-align:center;margin-top:10px}
+footer{padding:28px 20px;text-align:center;font-size:12px;color:rgba(240,236,228,0.7);border-top:1px solid rgba(215,229,232,0.2)}
+footer a{color:var(--slate);text-decoration:none}
+@media print{
+  body{background:#fff;color:#000}
+  header,footer,.no-print{display:none !important}
+  main{padding:0}
+  .plan-card{background:#fff;border:1px solid #888}
+  .plan-card h3,.plan-card .v{color:#000}.plan-card .k{color:#444}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="header-tag">Interactive Companion Tool</div>
+  <h1>The <em>Overthinking</em> Score</h1>
+  <div class="header-book">Stop Thinking Negative</div>
+  <div class="header-author">Angelo D'Agostino</div>
+</header>
+
+<div id="quiz" class="screen active"><main>
+  <div class="intro"><p>Twelve honest statements.<br>Answer fast, with the first answer that comes.</p></div>
+  <div class="progress" aria-hidden="true"><i id="bar"></i></div>
+  <div id="questions"></div>
+  <div class="btn-row"><button class="btn" id="go" onclick="finish()" disabled>See my score</button></div>
+  <p class="note" id="left"></p>
+</main><footer>From <em>Stop Thinking Negative</em> by <a href="https://app.comealive.vision">Angelo D'Agostino</a> · <a href="https://app.comealive.vision/?page=tools">All tools</a></footer></div>
+
+<div id="result" class="screen"><main>
+  <div class="result-head">
+    <div class="tier-label" id="r-level"></div>
+    <h2 id="r-name"></h2>
+    <p id="r-what"></p>
+  </div>
+  <div class="card block"><h3>Your score</h3><div id="r-bars"></div></div>
+  <div class="card block"><h3>Try this for the next 7 days</h3><p id="r-do"></p></div>
+  <div class="card block"><h3>What your level means</h3><p id="r-meaning"></p></div>
+  
+  <div class="capture no-print">
+    <h3>Get your guide by email</h3>
+    <p>A short guide with your next steps, free from Angelo D'Agostino.</p>
+    <div class="capture-form">
+      <input type="email" id="email-input" placeholder="your@email.com" autocomplete="email" aria-label="Your email">
+      <button class="btn" id="send-btn" onclick="sendGuide()">Email me the guide</button>
+    </div>
+    <input type="text" id="hp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+    <label class="consent"><input type="checkbox" id="consent"><span>Also send me the Come Alive newsletter: new tools, courses and ideas, a few emails a month. I can unsubscribe at any time.</span></label>
+    <div class="capture-msg" id="capture-msg" role="status"></div>
+  </div>
+  
+  <div class="book-box no-print">
+    <div class="book-label">From the book</div>
+    <div class="book-title">Stop Thinking Negative</div>
+    <p>Understand where negative thinking comes from, and how to rewire it step by step.</p>
+    <a id="book-link" class="btn" href="https://app.comealive.vision" style="margin-right:6px">Explore coaching with Angelo</a>
+  </div>
+
+  <div class="btn-row no-print"><button class="btn ghost" onclick="again()">Take it again</button></div>
+</main><footer>From <em>Stop Thinking Negative</em> by <a href="https://app.comealive.vision">Angelo D'Agostino</a> · <a href="https://app.comealive.vision/?page=tools">All tools</a></footer></div>
+<script>
+var TOOL_ID = "overthinking-score";
+var BOOK = "Stop Thinking Negative";
+var AMAZON_URL = "";
+var RESULT_KEY = "";
+function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c];});}
+function show(screen){var all=document.querySelectorAll(".screen");for(var i=0;i<all.length;i++){all[i].classList.remove("active");}document.getElementById(screen).classList.add("active");window.scrollTo(0,0);}
+function say(t,err){var m=document.getElementById("capture-msg");if(!m)return;m.textContent=t;m.className="capture-msg "+(err?"err":"ok");}
+function sendGuide(){
+  var btn=document.getElementById("send-btn");
+  var email=document.getElementById("email-input").value.trim();
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){say("Please enter a valid email address.",true);return;}
+  btn.disabled=true;btn.textContent="Sending...";
+  fetch("/api/tool-lead",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({tool:TOOL_ID,email:email,result:RESULT_KEY,consent:document.getElementById("consent").checked,website:document.getElementById("hp").value})})
+  .then(function(r){return r.json().catch(function(){return {};}).then(function(d){return {ok:r.ok,d:d};});})
+  .then(function(x){
+    if(x.ok){document.querySelector(".capture-form").style.display="none";say("Sent. Check your inbox, and your spam folder.",false);}
+    else{btn.disabled=false;btn.textContent="Email me the guide";say(x.d.error||"Something went wrong. Please try again.",true);}
+  })
+  .catch(function(){btn.disabled=false;btn.textContent="Email me the guide";say("Something went wrong. Please try again.",true);});
+}
+(function(){var l=document.getElementById("book-link");if(l&&AMAZON_URL){l.href=AMAZON_URL;l.target="_blank";l.rel="noopener";l.textContent="Get the book on Amazon";}})();
+function downloadText(name,text){var a=document.createElement("a");a.href=URL.createObjectURL(new Blob([text],{type:"text/plain"}));a.download=name;document.body.appendChild(a);a.click();document.body.removeChild(a);}
+function copyText(text,btn){
+  var done=function(){if(btn){var o=btn.textContent;btn.textContent="Copied";setTimeout(function(){btn.textContent=o;},1500);}};
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(done,function(){});}
+}
+
+var SCALE=["Never","Sometimes","Often","Almost always"];
+var QUESTIONS=[
+ ["loop","I replay conversations in my head long after they ended."],
+ ["worst","When something is uncertain, my mind jumps to the worst outcome."],
+ ["control","I put off decisions until I feel completely sure."],
+ ["self","I wonder what people think of me, and I assume it is negative."],
+ ["loop","I lie awake going over things I said or did."],
+ ["worst","I prepare for problems that most of the time never happen."],
+ ["control","I research and compare far longer than the decision deserves."],
+ ["self","I judge myself harder than I would judge a friend."],
+ ["loop","I keep returning to past mistakes as if I could still change them."],
+ ["worst","A small sign of trouble can spoil my whole day."],
+ ["control","I need to know exactly how things will turn out before I start."],
+ ["self","I analyse my own behaviour, looking for what is wrong with me."]
+];
+var PATTERNS={
+ loop:{name:"The Replay Loop",what:"Your mind keeps reviewing the past, as if one more pass will finally settle it.",to:"Give the replay a fixed slot: 10 minutes a day. If it starts outside that slot, write 'parked for 6 pm'. At 6 pm decide one thing only: is there an action? If yes, schedule it. If no, close it."},
+ worst:{name:"The Worst-Case Rehearser",what:"Your mind rehearses disasters to feel prepared, but it only teaches your body to feel the stress many times.",to:"When a worry shows up, write the worst case, the best case and the most likely case. Then write the next smallest action. Aim at 'most likely', not at 'worst'."},
+ control:{name:"The Certainty Seeker",what:"Waiting for certainty feels safe, but it quietly delays your life.",to:"Decide in advance how much information is 'good enough'. Set a timer and choose when it rings. This week, make every small decision in under 2 minutes."},
+ self:{name:"The Inner Critic",what:"Your attention turns inward and looks for flaws. It feels like self-improvement, but it drains your energy.",to:"When the critic speaks, ask: 'Would I say this to a friend?' Rewrite the sentence in the voice you would use for a friend. Do it three times a day."}
+};
+var answers={};
+function build(){
+  var h="";
+  for(var i=0;i<QUESTIONS.length;i++){
+    h+='<div class="card"><div class="q-num">Statement '+(i+1)+' of '+QUESTIONS.length+'</div><div class="q-text">'+esc(QUESTIONS[i][1])+'</div><div class="opts" role="group" aria-label="Statement '+(i+1)+'">';
+    for(var j=0;j<SCALE.length;j++){h+='<button class="opt" data-q="'+i+'" data-v="'+j+'" onclick="pick('+i+','+j+')">'+SCALE[j]+'</button>';}
+    h+='</div></div>';
+  }
+  document.getElementById("questions").innerHTML=h;
+}
+function pick(i,v){
+  answers[i]=v;
+  var b=document.querySelectorAll('[data-q="'+i+'"]');
+  for(var k=0;k<b.length;k++){b[k].classList.toggle("sel",Number(b[k].getAttribute("data-v"))===v);}
+  var n=Object.keys(answers).length;
+  document.getElementById("bar").style.width=(n/QUESTIONS.length*100)+"%";
+  document.getElementById("go").disabled=n<QUESTIONS.length;
+  document.getElementById("left").textContent=n<QUESTIONS.length?(QUESTIONS.length-n)+" left":"";
+}
+function finish(){
+  var s={loop:0,worst:0,control:0,self:0},total=0;
+  for(var i=0;i<QUESTIONS.length;i++){s[QUESTIONS[i][0]]+=answers[i];total+=answers[i];}
+  var keys=["loop","worst","control","self"],top=keys[0];
+  for(var k=1;k<keys.length;k++){if(s[keys[k]]>s[top])top=keys[k];}
+  RESULT_KEY=top;
+  var level=total<=11?"Light":(total<=23?"Moderate":"Heavy");
+  var meaning={Light:"Overthinking is visible but not in charge. A small daily habit will keep it that way.",Moderate:"Overthinking takes a real share of your time and energy. One pattern, practised daily, can change this within weeks.",Heavy:"Overthinking is taking a lot of your time and energy. This is common, and it can change. Start with one exercise only, and be patient with yourself."}[level];
+  document.getElementById("r-level").textContent=level+" overthinking · "+total+" / 36";
+  document.getElementById("r-name").textContent=PATTERNS[top].name;
+  document.getElementById("r-what").textContent=PATTERNS[top].what;
+  document.getElementById("r-do").textContent=PATTERNS[top].to;
+  document.getElementById("r-meaning").textContent=meaning+" This is a reflection tool, not a diagnosis. If worry feels unmanageable, please talk to a professional.";
+  var bars="";
+  for(var m=0;m<keys.length;m++){bars+='<div class="bar-row"><div class="bar-top"><span>'+PATTERNS[keys[m]].name+'</span><span>'+s[keys[m]]+' / 9</span></div><div class="bar"><i style="width:'+(s[keys[m]]/9*100)+'%"></i></div></div>';}
+  document.getElementById("r-bars").innerHTML=bars;
+  show("result");
+}
+function again(){answers={};RESULT_KEY="";build();document.getElementById("bar").style.width="0";document.getElementById("go").disabled=true;document.getElementById("left").textContent="";show("quiz");}
+build();
+
+</script>
+</body>
+</html>
