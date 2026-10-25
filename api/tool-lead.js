@@ -37,6 +37,7 @@ function guideEmail(tool, resultKey) {
     callout('Three steps for this week', t.steps.map((x) => `· ${esc(x)}`).join('<br />')) +
     button(`${SITE}${t.url}`, 'Back to the tool') +
     p('If you would like to talk it through, a free Discovery Session is always open. Just reply to this email.') +
+    p(`If you have read <em>${esc(t.book)}</em> and it helped you, an honest review on Amazon takes a minute and helps other readers find it. <a href="${t.amazon}" style="color:#005575;">Leave a review</a>. Thank you.`) +
     p('Angelo')
 
   const html = layout({ preheader: `Your guide from ${t.title}`, title: subject, body })
@@ -50,6 +51,9 @@ ${t.steps.map((x) => `- ${x}`).join('\n')}
 Back to the tool: ${SITE}${t.url}
 
 If you would like to talk it through, a free Discovery Session is always open. Just reply to this email.
+
+If you have read "${t.book}" and it helped you, an honest review on Amazon takes a minute and helps other readers find it: ${t.amazon}
+Thank you.
 Angelo
 
 Come Alive Studio - Support Team

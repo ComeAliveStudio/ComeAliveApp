@@ -6,6 +6,7 @@ export const TOOLS = {
   'overthinking-score': {
     title: 'Overthinking Score',
     book: 'Stop Thinking Negative',
+    amazon: 'https://www.amazon.de/STOP-THINKING-NEGATIVE-CHANGING-PERSPECTIVE/dp/B0DYZLT6VW',
     url: '/overthinking-score/',
     results: {
       loop: { name: 'The Replay Loop', tip: 'Give the replay a fixed slot: 10 minutes a day. If it starts outside that slot, write "parked for 6 pm". At 6 pm decide one thing only: is there an action? If yes, schedule it. If no, close it.' },
@@ -22,6 +23,7 @@ export const TOOLS = {
   'thought-reframer': {
     title: 'Thought Reframer',
     book: 'Stop Thinking Negative',
+    amazon: 'https://www.amazon.de/STOP-THINKING-NEGATIVE-CHANGING-PERSPECTIVE/dp/B0DYZLT6VW',
     url: '/thought-reframer/',
     results: {},
     steps: [
@@ -33,6 +35,7 @@ export const TOOLS = {
   'procrastination-breaker': {
     title: 'Procrastination Breaker',
     book: 'Coach Yourself to Mastery',
+    amazon: 'https://www.amazon.de/Coach-Yourself-Mastery-Journey-Confidence/dp/B0F8QJNF2Y',
     url: '/procrastination-breaker/',
     results: {
       fear: { name: 'Fear of judgement', tip: 'Make the first version private and imperfect on purpose. Share it with one safe person before anyone else. Mistakes found early are cheap.' },
@@ -49,6 +52,7 @@ export const TOOLS = {
   'action-planner': {
     title: '30-Day Action Planner',
     book: 'Coach Yourself to Mastery',
+    amazon: 'https://www.amazon.de/Coach-Yourself-Mastery-Journey-Confidence/dp/B0F8QJNF2Y',
     url: '/action-planner/',
     results: {},
     steps: [
