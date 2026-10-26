@@ -61,4 +61,34 @@ export const TOOLS = {
       'On day 30, write what worked, then choose the next wish.',
     ],
   },
+  'clarity-tool': {
+    title: 'Relationship Clarity Checklist',
+    book: 'Your Relationship Guide to Happiness',
+    amazon: 'https://www.amazon.de/Your-Relationship-Guide-Happiness-Post-Narcissistic/dp/B0F2MQH6FQ',
+    url: '/clarity-tool/',
+    results: {
+      1: { name: 'Tier 1 - Clear Horizon', tip: 'The green flags dominate. Trust what you see, and stop waiting for it to fall apart. Stability is the foundation everything else is built on.' },
+      2: { name: 'Tier 2 - Mostly Healthy', tip: 'Good foundations, with a few early signals to stay aware of. Stay honest with yourself: what have you noticed but decided not to mention?' },
+      3: { name: 'Tier 3 - Mixed Signals', tip: 'Something good is here, and so is something that worries you. Confusion is not chemistry, it is a signal asking to be read. Ask whether the pattern is consistent enough to build on.' },
+      4: { name: 'Tier 4 - Serious Concern', tip: 'Several warning signs, inside and out. You are allowed to ask for clarity and to say "this isn\'t working for me". Peace is the presence of honesty.' },
+      5: { name: 'Tier 5 - High Alert', tip: 'The pattern is clear, and cycles do not break themselves. You do not need to decide everything today, but stop treating it as a phase. Protect your own clarity.' },
+    },
+    steps: [
+      'Write down the three signals that weighed most in your checklist.',
+      'Notice for one week whether the pattern is consistent, not whether the moments are good.',
+      'Talk to one person you trust, or book a free Discovery Session with Angelo.',
+    ],
+  },
+  'relationship-phases': {
+    title: 'Relationship Phases Framework',
+    book: 'Your Relationship Guide to Happiness',
+    amazon: 'https://www.amazon.de/Your-Relationship-Guide-Happiness-Post-Narcissistic/dp/B0F2MQH6FQ',
+    url: '/relationship-phases/',
+    results: {},
+    steps: [
+      'Name the phase you are in now, and the one you would like to skip to.',
+      'Let behaviour over time, not words or chemistry, decide the pace.',
+      'Come back to the framework after a month and compare.',
+    ],
+  },
 }

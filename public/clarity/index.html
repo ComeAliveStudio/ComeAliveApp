@@ -463,6 +463,8 @@
       <input type="email" id="email-input" placeholder="your@email.com">
       <button onclick="submitEmail()">Send it to me</button>
     </div>
+    <input type="text" id="hp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+    <label style="display:flex;gap:8px;align-items:flex-start;text-align:left;max-width:440px;margin:12px auto 0;font-size:12px;color:rgba(219,232,235,0.8);cursor:pointer"><input type="checkbox" id="consent" style="margin-top:3px"><span>Also send me the Come Alive newsletter: new tools, courses and ideas, a few emails a month. I can unsubscribe at any time.</span></label>
     <div class="capture-success" id="capture-success">✓ You're in. Check your inbox.</div>
   </div>
 </main>
@@ -691,20 +693,11 @@ async function submitEmail() {
   const tierNum = tier ? tier.id : 0;
 
   try {
-    const res = await fetch(
-      'https://mraoyfuixnjrtdkldyxg.supabase.co/functions/v1/submit-lead',
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: val,
-          tier: tierNum,
-          red:   counts.red,
-          amber: counts.amber,
-          green: counts.green,
-        }),
-      }
-    );
+    const res = await fetch('/api/tool-lead', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ tool: 'clarity-tool', email: val, result: String(tierNum), consent: document.getElementById('consent').checked, website: document.getElementById('hp').value }),
+    });
 
     if (res.ok) {
       document.querySelector('.capture-form').style.display = 'none';
