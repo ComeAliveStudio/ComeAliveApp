@@ -62,7 +62,7 @@ export function layout({ preheader = '', title = 'Come Alive Studio', body, foot
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="${PARCHMENT}" style="background-color:${PARCHMENT};">
 <tr><td align="center" style="padding:32px 16px;">
 <table role="presentation" width="560" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" style="width:100%;max-width:560px;background-color:#ffffff;border:1px solid ${LINE};">
-<tr><td bgcolor="${AZURE}" style="background-color:${AZURE};padding:22px 32px;font-family:${SERIF};font-size:22px;letter-spacing:0.15em;text-transform:uppercase;color:${PARCHMENT};">Come Alive Studio</td></tr>
+<tr><td bgcolor="${AZURE}" style="background-color:${AZURE};padding:20px 32px;font-family:${SERIF};font-size:22px;letter-spacing:0.15em;text-transform:uppercase;color:${PARCHMENT};"><img src="${SITE}/images/logo-mark.png" alt="" width="34" height="37" style="display:inline-block;vertical-align:middle;border:0;margin-right:12px;" /><span style="vertical-align:middle;">Come Alive Studio</span></td></tr>
 <tr><td style="padding:36px 32px 12px 32px;">
 ${body}
 </td></tr>

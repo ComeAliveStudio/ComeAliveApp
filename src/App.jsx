@@ -570,7 +570,10 @@ function NavBar({ setPage, user, onSignIn, onSignOut }) {
   const go = (p) => { setPage(p); setOpen(false) }
   return (
     <nav>
-      <span className="nav-logo" onClick={() => go('home')}>Come Alive Studio</span>
+      <span className="nav-logo" onClick={() => go('home')} style={{display:'inline-flex', alignItems:'center', gap:'0.7rem'}}>
+        <img src="/images/logo-mark.png" alt="" style={{height:36, width:'auto'}} />
+        Come Alive Studio
+      </span>
       <ul className="nav-links">
         {items.map(p => (
           <li key={p}>
