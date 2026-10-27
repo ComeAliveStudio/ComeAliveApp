@@ -3,6 +3,7 @@ import * as React from "react";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { ExercisesPage, ExercisesList } from './Exercises.jsx'
 import ComeAliveChat from "./components/ComeAliveChat";
+import ConciergeChat from "./components/ConciergeChat";
 
 const SUPABASE_URL  = import.meta.env.VITE_SUPABASE_URL
 const SUPABASE_KEY  = import.meta.env.VITE_SUPABASE_ANON_KEY
@@ -806,7 +807,7 @@ const CONCIERGE_CHIPS = [
 ]
 
 function ConciergeSection() {
-  const iframeRef = React.useRef(null)
+  const [ask, setAsk] = useState({ text: '', n: 0 })
 
   return (
     <section className="concierge-section" id="concierge">
@@ -814,7 +815,7 @@ function ConciergeSection() {
         <div className="section-label">Support</div>
         <div className="concierge-grid">
 
-          {/* Left : intro + mailto chips */}
+          {/* Left : intro + question chips */}
           <div className="concierge-intro">
             <h2>Welcome to<br /><em>Come Alive Studio.</em></h2>
             <p>
@@ -827,13 +828,14 @@ function ConciergeSection() {
               Concierge to get instant answers.
             </p>
 
-            {/* Quick enquiry chips — each opens a pre-filled email */}
+            {/* Quick question chips: each asks the Concierge */}
             <div style={{marginTop:'1.6rem', display:'flex', flexDirection:'column', gap:'0.55rem'}}>
               {CONCIERGE_CHIPS.map(q => (
-                <a
+                <button
                   key={q.label}
-                  href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(q.subject)}&body=${encodeURIComponent(q.body)}`}
-                  style={{
+                  type="button"
+                  onClick={() => setAsk(a => ({ text: q.label, n: a.n + 1 }))}
+                  style={{ cursor: 'pointer', textAlign: 'left', fontFamily: 'inherit',
                     display: 'inline-flex',
                     alignItems: 'center',
                     gap: '0.6rem',
@@ -843,7 +845,6 @@ function ConciergeSection() {
                     color: 'var(--gold)',
                     fontSize: '0.8rem',
                     letterSpacing: '0.06em',
-                    textDecoration: 'none',
                     transition: 'all 0.2s',
                   }}
                   onMouseEnter={e => {
@@ -859,24 +860,17 @@ function ConciergeSection() {
                 >
                   <span style={{color:'var(--gold)', fontSize:'0.7rem'}}>→</span>
                   {q.label}
-                </a>
+                </button>
               ))}
             </div>
           </div>
 
-          {/* Right : PaymeGPT widget */}
+          {/* Right : Concierge chat */}
           <div className="widget-frame-wrap">
             <div className="section-label" style={{ marginBottom: '1rem' }}>
               Come Alive Studio Concierge
             </div>
-            <iframe
-              ref={iframeRef}
-              className="widget-frame"
-              src="https://paymegpt.com/widgets/48835217?c=2NPinFKk"
-              title="Come Alive Studio Concierge"
-              allow="microphone"
-              loading="lazy"
-            />
+            <ConciergeChat ask={ask} />
           </div>
         </div>
       </div>
