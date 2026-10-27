@@ -35,15 +35,15 @@ const sessions = new Map();
 // ─────────────────────────────────────────────────────────────────
 // CTA ROUTES
 // Update these URLs to match real pages in your app.
-// discovery_call and coaching point to your WordPress contact section.
+// discovery_call and coaching open the Booking page of the app, project_path opens Contact.
 // ─────────────────────────────────────────────────────────────────
 const CTA_ROUTES = {
   starter_pack:   { url: "/",                                   en: "Get the Starter Pack",   it: "Scarica lo Starter Pack" },
   workbook_1:     { url: "/",                                   en: "Start the Workbook",      it: "Inizia il Workbook" },
   workbook_2:     { url: "/",                                   en: "Deep Identity Work",      it: "Lavoro sull'Identità" },
-  discovery_call: { url: "https://comealive.vision/#contact",   en: "Book a Free Session",     it: "Prenota una Sessione Gratuita" },
-  coaching:       { url: "https://comealive.vision/#contact",   en: "Explore Coaching",        it: "Scopri il Coaching" },
-  project_path:   { url: "https://comealive.vision/#contact",   en: "Discuss Your Project",    it: "Parla del Tuo Progetto" },
+  discovery_call: { url: "https://app.comealive.vision/?page=booking", en: "Book a Free Session",     it: "Prenota una Sessione Gratuita" },
+  coaching:       { url: "https://app.comealive.vision/?page=booking", en: "Explore Coaching",        it: "Scopri il Coaching" },
+  project_path:   { url: "https://app.comealive.vision/?page=contact", en: "Discuss Your Project",    it: "Parla del Tuo Progetto" },
 };
 
 function getCTA(resource, lang) {
