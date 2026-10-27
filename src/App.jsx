@@ -46,6 +46,9 @@ const css = `
   .nav-links { display: flex; gap: 2.5rem; list-style: none; }
   .nav-links a { font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(246,243,240,0.7); text-decoration: none; transition: color 0.2s; cursor: pointer; }
   .nav-links a:hover { color: var(--parchment); }
+  .nav-burger { display: none; background: transparent; border: 1px solid var(--parchment); color: var(--parchment); width: 40px; height: 40px; font-size: 1.2rem; cursor: pointer; line-height: 1; }
+  .nav-right { display: flex; align-items: center; gap: 0.6rem; }
+  .mobile-menu { display: none; }
   .nav-cta { font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.6rem 1.4rem; border: 1px solid var(--parchment); background: transparent; color: var(--parchment); cursor: pointer; transition: all 0.2s; font-family: 'Outfit', sans-serif; }
   .nav-cta:hover { background: var(--parchment); color: var(--gold); }
   .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 8rem 3rem 4rem; position: relative; overflow: hidden; }
@@ -216,6 +219,10 @@ const css = `
 
   @media (max-width: 768px) {
     nav { padding: 1rem 1.5rem; } .nav-links { display: none; } section { padding: 4rem 1.5rem; }
+    .nav-burger { display: inline-block; }
+    .nav-cta { padding: 0.55rem 0.9rem; }
+    .mobile-menu { display: flex; flex-direction: column; position: fixed; top: 64px; left: 0; right: 0; z-index: 99; background: rgba(0,63,90,0.98); border-bottom: 1px solid rgba(215,229,232,0.3); padding: 0.5rem 1.5rem 1rem; }
+    .mobile-menu a { padding: 0.9rem 0; font-size: 0.85rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--parchment); border-bottom: 1px solid rgba(215,229,232,0.15); cursor: pointer; }
     .about-grid, .booking-grid, .contact-grid, .tiers-grid, .dash-grid, .concierge-grid { grid-template-columns: 1fr; }
     .hero { padding: 6rem 1.5rem 3rem; } .dash-cards { grid-template-columns: 1fr; }
     .widget-frame { height: 460px; }
@@ -557,26 +564,37 @@ function AuthModal({ onClose, defaultMode = "signin" }) {
 
 // ── NAV ───────────────────────────────────────────────────────────────────────
 function NavBar({ setPage, user, onSignIn, onSignOut }) {
+  const [open, setOpen] = useState(false)
+  const items = ['Library','Tools','Exercises','Booking','Contact']
+  const go = (p) => { setPage(p); setOpen(false) }
   return (
     <nav>
-      <span className="nav-logo" onClick={() => setPage('home')}>Come Alive Studio</span>
-     <ul className="nav-links">
-  {['Library','Tools','Exercises','Booking','Contact'].map(p => (
-    <li key={p}>
-      <a onClick={() => setPage(p.toLowerCase())}>{p}</a>
-    </li>
-  ))}
-
-  {user && (
-    <li>
-      <a onClick={() => setPage('dashboard')}>Dashboard</a>
-    </li>
-  )}
-</ul>
-      {user
-        ? <button className="nav-cta" onClick={onSignOut}>Sign Out</button>
-        : <button className="nav-cta" onClick={onSignIn}>Member Area</button>
-      }
+      <span className="nav-logo" onClick={() => go('home')}>Come Alive Studio</span>
+      <ul className="nav-links">
+        {items.map(p => (
+          <li key={p}>
+            <a onClick={() => go(p.toLowerCase())}>{p}</a>
+          </li>
+        ))}
+        {user && (
+          <li>
+            <a onClick={() => go('dashboard')}>Dashboard</a>
+          </li>
+        )}
+      </ul>
+      <div className="nav-right">
+        {user
+          ? <button className="nav-cta" onClick={onSignOut}>Sign Out</button>
+          : <button className="nav-cta" onClick={onSignIn}>Member Area</button>
+        }
+        <button className="nav-burger" aria-label="Menu" aria-expanded={open} onClick={() => setOpen(!open)}>{open ? '×' : '☰'}</button>
+      </div>
+      {open && (
+        <div className="mobile-menu">
+          {items.map(p => <a key={p} onClick={() => go(p.toLowerCase())}>{p}</a>)}
+          {user && <a onClick={() => go('dashboard')}>Dashboard</a>}
+        </div>
+      )}
     </nav>
   )
 }
