@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Marketing Assistant · Come Alive</title>
+<style>
+  /* Match these values to the Come Alive Vision variables used on the rest of the site. */
+  :root {
+    --ink: #1c1f2a;
+    --gold: #b8923a;
+    --slate: #4a5568;
+    --mist: #f4f1ea;
+    --border: #ddd6c8;
+    --card-text: #2d3140;
+    --accent: #b8923a;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--mist);
+    color: var(--card-text);
+    font: 16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  header { background: var(--ink); color: #fff; padding: 18px 16px; }
+  header h1 { margin: 0; font-size: 1.15rem; font-weight: 600; }
+  header p { margin: 4px 0 0; color: #cfc8b8; font-size: 0.9rem; }
+  main { max-width: 860px; margin: 0 auto; padding: 16px; }
+  .card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+  h2 { margin: 0 0 10px; font-size: 1.05rem; color: var(--ink); }
+  label { display: block; font-size: 0.85rem; color: var(--slate); margin: 12px 0 4px; }
+  input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font: inherit;
+    background: #fff;
+    color: var(--card-text);
+  }
+  textarea { min-height: 90px; resize: vertical; }
+  button {
+    font: inherit;
+    cursor: pointer;
+    border: 1px solid var(--ink);
+    background: var(--ink);
+    color: #fff;
+    padding: 10px 16px;
+    border-radius: 8px;
+  }
+  button.secondary { background: #fff; color: var(--ink); }
+  button.gold { background: var(--accent); border-color: var(--accent); }
+  button:disabled { opacity: 0.55; cursor: wait; }
+  .row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+  .tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 4px; }
+  .tabs button { background: #fff; color: var(--ink); }
+  .tabs button.active { background: var(--ink); color: #fff; }
+  pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    background: var(--mist);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+    margin: 0;
+    font: 0.92rem/1.5 ui-monospace, SFMono-Regular, Menlo, monospace;
+    max-height: 520px;
+    overflow: auto;
+  }
+  .muted { color: var(--slate); font-size: 0.88rem; }
+  .error { color: #a12626; font-size: 0.92rem; margin-top: 8px; }
+  .item {
+    border-top: 1px solid var(--border);
+    padding: 10px 0;
+    display: flex;
+    gap: 8px;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .item:first-child { border-top: 0; }
+  .badge {
+    display: inline-block;
+    font-size: 0.75rem;
+    padding: 2px 8px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--mist);
+    margin-left: 6px;
+  }
+  .badge.approved { background: #e6f2e6; border-color: #b9d8b9; }
+  .badge.archived { background: #eee; }
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Marketing Assistant</h1>
+  <p>Private drafts for plan, podcast and short video · you approve everything</p>
+</header>
+
+<main>
+  <section id="login" class="card hidden">
+    <h2>Sign in</h2>
+    <label for="email">Your login email</label>
+    <input id="email" type="email" autocomplete="email" placeholder="you@example.com">
+    <div class="row"><button id="sendLink">Send magic link</button></div>
+    <p id="loginMsg" class="muted"></p>
+  </section>
+
+  <section id="noaccess" class="card hidden">
+    <h2>No access</h2>
+    <p class="muted">This account is not on the admin list for the marketing assistant.</p>
+    <div class="row"><button id="signOut1" class="secondary">Sign out</button></div>
+  </section>
+
+  <div id="app" class="hidden">
+    <section class="card">
+      <div class="tabs" id="tabs">
+        <button data-kind="weekly_plan" class="active">Plan this week</button>
+        <button data-kind="episode_kit">Episode kit</button>
+        <button data-kind="video_script">Video script</button>
+      </div>
+
+      <div id="trackWrap">
+        <label for="track">Track</label>
+        <select id="track">
+          <option value="">Let the assistant choose</option>
+          <option>Filmmaking</option>
+          <option>Mindset</option>
+          <option>Relationships</option>
+          <option>Growth</option>
+        </select>
+      </div>
+
+      <label id="topicLabel" for="topic">Focus or constraints this week</label>
+      <textarea id="topic" maxlength="4000"></textarea>
+
+      <label id="notesLabel" for="notes">Last week's results (views, sign-ups, what worked)</label>
+      <textarea id="notes" maxlength="4000"></textarea>
+
+      <div class="row">
+        <button id="generate" class="gold">Generate draft</button>
+        <button id="signOut2" class="secondary">Sign out</button>
+      </div>
+      <p id="error" class="error"></p>
+    </section>
+
+    <section class="card">
+      <h2>Current draft <span id="currentMeta" class="muted"></span></h2>
+      <pre id="output">Nothing yet. Generate a draft or open one from the list below.</pre>
+      <div class="row">
+        <button id="copy" class="secondary">Copy text</button>
+        <button id="approve" class="secondary">Mark approved</button>
+        <button id="archive" class="secondary">Archive</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Recent drafts</h2>
+      <div id="list" class="muted">Loading</div>
+    </section>
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  // Fill in the anon (public) key from Supabase > Project Settings > API.
+  const SUPABASE_URL = "https://mraoyfuixnjrtdkldyxg.supabase.co";
+  const SUPABASE_ANON_KEY = "sb_publishable_nPAG3Txy-MaYxrPDDj8Rig__ul8qZ9V";
+
+  const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  const $ = (id) => document.getElementById(id);
+
+  const KIND_LABELS = {
+    weekly_plan: "Weekly plan",
+    episode_kit: "Episode kit",
+    video_script: "Video script",
+  };
+  const FORM = {
+    weekly_plan: {
+      track: false,
+      topicLabel: "Focus or constraints this week",
+      notesLabel: "Last week's results (views, sign-ups, what worked)",
+    },
+    episode_kit: {
+      track: true,
+      topicLabel: "Topic or exercise for the episode",
+      notesLabel: "Extra notes (guest, angle, length)",
+    },
+    video_script: {
+      track: true,
+      topicLabel: "Source exercise or idea",
+      notesLabel: "Extra notes (tone, example from your story)",
+    },
+  };
+
+  let currentKind = "weekly_plan";
+  let current = null; // the draft shown in the output box
+
+  function show(id, visible) { $(id).classList.toggle("hidden", !visible); }
+
+  function setKind(kind) {
+    currentKind = kind;
+    document.querySelectorAll("#tabs button").forEach((b) => {
+      b.classList.toggle("active", b.dataset.kind === kind);
+    });
+    const f = FORM[kind];
+    show("trackWrap", f.track);
+    $("topicLabel").textContent = f.topicLabel;
+    $("notesLabel").textContent = f.notesLabel;
+  }
+
+  function setCurrent(draft) {
+    current = draft;
+    $("output").textContent = draft ? draft.output : "Nothing yet. Generate a draft or open one from the list below.";
+    $("currentMeta").textContent = draft
+      ? "· " + KIND_LABELS[draft.kind] + " · " + draft.status
+      : "";
+  }
+
+  function formatDate(iso) {
+    return new Date(iso).toLocaleString([], { dateStyle: "medium", timeStyle: "short" });
+  }
+
+  async function loadList() {
+    const { data, error } = await sb
+      .from("marketing_drafts")
+      .select("*")
+      .order("created_at", { ascending: false })
+      .limit(20);
+    const box = $("list");
+    box.textContent = "";
+    if (error) { box.textContent = "Could not load drafts."; return; }
+    if (!data.length) { box.textContent = "No drafts yet."; return; }
+    data.forEach((d) => {
+      const row = document.createElement("div");
+      row.className = "item";
+
+      const left = document.createElement("div");
+      const title = document.createElement("strong");
+      title.textContent = KIND_LABELS[d.kind] + (d.track ? " · " + d.track : "");
+      const badge = document.createElement("span");
+      badge.className = "badge " + d.status;
+      badge.textContent = d.status;
+      const when = document.createElement("div");
+      when.className = "muted";
+      when.textContent = formatDate(d.created_at);
+      left.append(title, badge, when);
+
+      const open = document.createElement("button");
+      open.className = "secondary";
+      open.textContent = "Open";
+      open.addEventListener("click", () => {
+        setCurrent(d);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+
+      row.append(left, open);
+      box.append(row);
+    });
+  }
+
+  async function setStatus(status) {
+    if (!current) return;
+    const { data, error } = await sb
+      .from("marketing_drafts")
+      .update({ status })
+      .eq("id", current.id)
+      .select()
+      .single();
+    if (error) { $("error").textContent = "Could not update the draft."; return; }
+    setCurrent(data);
+    loadList();
+  }
+
+  async function generate() {
+    $("error").textContent = "";
+    const btn = $("generate");
+    btn.disabled = true;
+    btn.textContent = "Writing";
+    try {
+      const body = {
+        kind: currentKind,
+        track: FORM[currentKind].track ? $("track").value : "",
+        topic: $("topic").value,
+        notes: $("notes").value,
+      };
+      const { data, error } = await sb.functions.invoke("marketing-agent", { body });
+      if (error) {
+        let message = "Something went wrong. Try again.";
+        try {
+          const detail = await error.context.json();
+          if (detail && detail.error) message = detail.error;
+        } catch (e) { /* keep default message */ }
+        throw new Error(message);
+      }
+      setCurrent(data.draft);
+      loadList();
+    } catch (e) {
+      $("error").textContent = e.message;
+    } finally {
+      btn.disabled = false;
+      btn.textContent = "Generate draft";
+    }
+  }
+
+  async function route(session) {
+    show("login", false);
+    show("noaccess", false);
+    show("app", false);
+    if (!session) { show("login", true); return; }
+    const { data } = await sb.from("marketing_admins").select("email").maybeSingle();
+    if (!data) { show("noaccess", true); return; }
+    show("app", true);
+    setKind(currentKind);
+    loadList();
+  }
+
+  async function signOut() { await sb.auth.signOut(); }
+
+  $("sendLink").addEventListener("click", async () => {
+    const email = $("email").value.trim();
+    if (!email) { $("loginMsg").textContent = "Enter your email first."; return; }
+    const { error } = await sb.auth.signInWithOtp({
+      email,
+      options: { emailRedirectTo: window.location.href.split("#")[0] },
+    });
+    $("loginMsg").textContent = error
+      ? "Could not send the link. Check the email address."
+      : "Check your inbox for the sign-in link.";
+  });
+  $("signOut1").addEventListener("click", signOut);
+  $("signOut2").addEventListener("click", signOut);
+  $("generate").addEventListener("click", generate);
+  $("approve").addEventListener("click", () => setStatus("approved"));
+  $("archive").addEventListener("click", () => setStatus("archived"));
+  $("copy").addEventListener("click", async () => {
+    if (!current) return;
+    try {
+      await navigator.clipboard.writeText(current.output);
+      $("copy").textContent = "Copied";
+      setTimeout(() => { $("copy").textContent = "Copy text"; }, 1500);
+    } catch (e) {
+      $("error").textContent = "Copy failed. Select the text and copy it manually.";
+    }
+  });
+  document.querySelectorAll("#tabs button").forEach((b) => {
+    b.addEventListener("click", () => setKind(b.dataset.kind));
+  });
+
+  sb.auth.onAuthStateChange((_event, session) => { route(session); });
+  sb.auth.getSession().then(({ data }) => route(data.session));
+</script>
+</body>
+</html>
